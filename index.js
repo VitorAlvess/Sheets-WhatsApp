@@ -127,7 +127,7 @@ async function listMajors(auth) {
         console.log(valores_vermelho)
       }
 
-      else if (rows[index][5] != '') {
+      else if (rows[index][5] != '' && rows[index][4] == '') {
         let inputDate = new Date(rows[index][5]);
         let currentDate = new Date();
         let difference = inputDate.getTime() - currentDate.getTime();
@@ -167,6 +167,7 @@ async function listMajors(auth) {
         console.log(`valores_rosa_claro a serem adicionados: ${valores_rosa_claro}`)
         console.log(`valores_verde a serem adicionados: ${valores_verde}`)
         console.log(`valores_vermelho a serem adicionados: ${valores_vermelho}`)
+        console.log(`valores_cinza a serem adicionados: ${valores_cinza}`)
         //Manda mensagem e insere a data
         if (valores_rosa_claro != '') {
           let nomes = []
@@ -221,8 +222,8 @@ async function listMajors(auth) {
       
   
           for (let index = 0; index < valores_vermelho.length; index++) {
-              telefones.push(valores_verde[index][0])
-              mensagem5.push(valores_verde[index][1])
+              telefones.push(valores_vermelho[index][0])
+              mensagem5.push(valores_vermelho[index][1])
 
           }
           for (let index = 0; index < telefones.length; index++) {
@@ -263,6 +264,11 @@ async function listMajors(auth) {
 
     for (let index = 0; index < linha_adicionar_vermelho.length; index++) {
       adicionar_data_vermelho(linha_adicionar_vermelho[index])
+    }
+
+
+    for (let index = 0; index < linha_adicionar_cinza.length; index++) {
+      adicionar_data_cinza(linha_adicionar_cinza[index])
     }
     function adicionar_data_vermelho(linha){
       
@@ -339,6 +345,36 @@ async function listMajors(auth) {
         const result = sheets.spreadsheets.values.update({
           spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
           range: `Principal!D${linha}`,
+          valueInputOption: 'RAW',
+          resource,
+        });
+  
+        return result;
+      } catch (err) {
+        // TODO (Developer) - Handle exception
+        throw err;
+    }
+    }
+
+    function adicionar_data_cinza(linha){
+      let data = new Date();
+      let dia = String(data.getDate()).padStart(2, '0');
+      let mes = String(data.getMonth() + 1).padStart(2, '0');
+      let ano = data.getFullYear();
+      dataAtual = '2 ' + dia + '/' + mes + '/' + ano;
+      let values = [
+        [
+        dataAtual
+        ],
+      ];
+      const resource = {
+        values,
+      };
+
+      try {
+        const result = sheets.spreadsheets.values.update({
+          spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+          range: `Principal!F${linha}`,
           valueInputOption: 'RAW',
           resource,
         });
