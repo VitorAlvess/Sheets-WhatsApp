@@ -106,7 +106,7 @@ async function listMajors(auth) {
 
 
     for (let index = 0; index < rows.length; index++) {
-      //manda mensagem e insere a data
+      
 
       if (rows[index][6] === "TRUE" && rows[index][5] == '') {
           nome = rows[index][7]
@@ -171,7 +171,28 @@ async function listMajors(auth) {
         valores_ciano.push([[numero],[mensagem4]])
         linha_adicionar_ciano.push(index + 1)
         console.log(valores_ciano)
-    }
+      }
+
+      if (rows[index][2] == "Aguardando agendamento" && rows[index][3] != '') {
+        let data_planilha = rows[index][3]
+        let currentDate = new Date();
+        let dataArray = data_planilha.split("/");
+        let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+        let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+        if (diferenca > 14) {
+          numero = rows[index][9]
+          mensagem9 = rows[index][23]
+          valores_verde_escuro.push([[numero],[mensagem9]])
+          linha_adicionar_verde_es.push(index + 1)
+          console.log(valores_verde_es)
+        }
+
+
+
+
+
+        
+      }
 
 
     }
