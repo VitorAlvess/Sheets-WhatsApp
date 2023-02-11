@@ -98,10 +98,13 @@ async function listMajors(auth) {
     var valores_cinza = []
     var linha_adicionar_cinza = []
 
+    var valores_cinza_forte = []
+    var linha_adicionar_cinza_forte = []
+
 
     for (let index = 0; index < rows.length; index++) {
       //manda mensagem e insere a data
-    
+
       if (rows[index][6] === "TRUE" && rows[index][5] == '') {
           nome = rows[index][7]
           numero = rows[index][9]
@@ -128,22 +131,41 @@ async function listMajors(auth) {
       }
 
       else if (rows[index][5] != '' && rows[index][4] == '') {
-        let inputDate = new Date(rows[index][5]);
-        let currentDate = new Date();
-        let difference = inputDate.getTime() - currentDate.getTime();
-        let daysDifference = difference / (1000 * 3600 * 24);
-        if (daysDifference < -15) {
-          console.log("A data fornecida está mais de 15 dias no passado");
+        var data_planilha = rows[index][5]
+        var currentDate = new Date();
+        var dataArray = data_planilha.split("/");
+        var novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+        var diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+        console.log(diferenca)
+        if (diferenca > 7) {
+          console.log("A data fornecida está mais de 7 dias no passado");
           numero = rows[index][9]
           mensagem6 = rows[index][21]
           valores_cinza.push([[numero],[mensagem6]])
           linha_adicionar_cinza.push(index + 1)
           console.log(valores_cinza)
-        } else {
-          console.log("A data fornecida não está mais de 15 dias no passado");
-        }
-        
+        } 
       }
+      // else if (rows[index][5]. == '²' ){
+        
+      //   let inputDate = new Date(rows[index][5].substring(1));
+      //   let currentDate = new Date();
+      //   let difference = inputDate.getTime() - currentDate.getTime();
+      //   let daysDifference = difference / (1000 * 3600 * 24);
+      //   if (daysDifference < -14) {
+      //     console.log("A data fornecida está mais de 14 dias no passado");
+      //     numero = rows[index][9]
+      //     mensagem7 = rows[index][22]
+      //     valores_cinza_forte.push([[numero],[mensagem7]])
+      //     linha_adicionar_cinza_forte.push(index + 1)
+      //     console.log(valores_cinza_forte)
+      //   } 
+
+
+
+      // }
+
+
     }
 
 
@@ -168,6 +190,7 @@ async function listMajors(auth) {
         console.log(`valores_verde a serem adicionados: ${valores_verde}`)
         console.log(`valores_vermelho a serem adicionados: ${valores_vermelho}`)
         console.log(`valores_cinza a serem adicionados: ${valores_cinza}`)
+        console.log(`valores_cinza a serem adicionados: ${valores_cinza_forte}`)
         //Manda mensagem e insere a data
         if (valores_rosa_claro != '') {
           let nomes = []
@@ -216,7 +239,7 @@ async function listMajors(auth) {
           }
         }
 
-        if (valores_vermelho!= '') {
+        if (valores_vermelho != '') {
           let telefones = []
           let mensagem5 = []
       
@@ -234,7 +257,7 @@ async function listMajors(auth) {
         }
 
 
-        if (valores_cinza!= '') {
+        if (valores_cinza != '') {
           let telefones = []
           let mensagem6 = []
       
@@ -248,6 +271,23 @@ async function listMajors(auth) {
               numero_enviar = '55' + telefones[index][0].replace(/\D/g, '') + '@c.us'
               console.log(`${numero_enviar} Mensagem vermelho `)
               client.sendMessage(numero_enviar, mensagem6[index][0])
+          }
+        }
+
+        if (valores_cinza_forte != '') {
+          let telefones = []
+          let mensagem7 = []
+      
+  
+          for (let index = 0; index < valores_cinza_forte.length; index++) {
+              telefones.push(valores_cinza_forte[index][0])
+              mensagem7.push(valores_cinza_forte[index][1])
+
+          }
+          for (let index = 0; index < telefones.length; index++) {
+              numero_enviar = '55' + telefones[index][0].replace(/\D/g, '') + '@c.us'
+              console.log(`${numero_enviar} Mensagem vermelho `)
+              client.sendMessage(numero_enviar, mensagem7[index][0])
           }
         }
        
@@ -266,10 +306,14 @@ async function listMajors(auth) {
       adicionar_data_vermelho(linha_adicionar_vermelho[index])
     }
 
-
     for (let index = 0; index < linha_adicionar_cinza.length; index++) {
       adicionar_data_cinza(linha_adicionar_cinza[index])
     }
+
+    for (let index = 0; index < linha_adicionar_cinza_forte.length; index++) {
+      adicionar_data_cinza(linha_adicionar_cinza_forte[index])
+    }
+
     function adicionar_data_vermelho(linha){
       
       let values = [
@@ -361,7 +405,7 @@ async function listMajors(auth) {
       let dia = String(data.getDate()).padStart(2, '0');
       let mes = String(data.getMonth() + 1).padStart(2, '0');
       let ano = data.getFullYear();
-      dataAtual = '2 ' + dia + '/' + mes + '/' + ano;
+      dataAtual = '²' + dia + '/' + mes + '/' + ano;
       let values = [
         [
         dataAtual
@@ -386,7 +430,43 @@ async function listMajors(auth) {
     }
     }
 
+    function adicionar_data_cinza_forte(linha){
+      let data = new Date();
+      let dia = String(data.getDate()).padStart(2, '0');
+      let mes = String(data.getMonth() + 1).padStart(2, '0');
+      let ano = data.getFullYear();
+      dataAtual = '³' + dia + '/' + mes + '/' + ano;
+      let values = [
+        [
+        dataAtual
+        ],
+      ];
+      const resource = {
+        values,
+      };
 
+      try {
+        const result = sheets.spreadsheets.values.update({
+          spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+          range: `Principal!F${linha}`,
+          valueInputOption: 'RAW',
+          resource,
+        });
+  
+        return result;
+      } catch (err) {
+        // TODO (Developer) - Handle exception
+        throw err;
+    }
+    }
+
+    function diffInMonths(startDate, endDate) {
+      let diff = endDate.getTime() - startDate.getTime();
+      let diffInDays = diff / (1000 * 60 * 60 * 24);
+      let diffInMonths = diffInDays / 30.4375;
+      return diffInMonths;
+    }
+    
 }
 
 authorize().then(listMajors).catch(console.error);
