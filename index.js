@@ -101,6 +101,9 @@ async function listMajors(auth) {
     var valores_cinza_forte = []
     var linha_adicionar_cinza_forte = []
 
+    var valores_ciano = []
+    var linha_adicionar_ciano = []
+
 
     for (let index = 0; index < rows.length; index++) {
       //manda mensagem e insere a data
@@ -115,14 +118,14 @@ async function listMajors(auth) {
           valores_rosa_claro.push([[nome], [numero], [mensagem1], [mensagem2], [mensagem3]])
           console.log(valores_rosa_claro)
       }
-      else if (rows[index][4] == "Marcar entrevista" && rows[index][3] == '') {
+      if (rows[index][4] == "Marcar entrevista" && rows[index][3] == '') {
           numero = rows[index][9]
           mensagem4 = rows[index][19]
           valores_verde.push([[numero],[mensagem4]])
           linha_adicionar_verde.push(index + 1)
           console.log(valores_verde)
       }
-      else if (rows[index][4] == "Incompatível com a vaga" && rows[index][0] == '') {
+      if (rows[index][4] == "Incompatível com a vaga" && rows[index][0] == '') {
         numero = rows[index][9]
         mensagem5 = rows[index][20]
         valores_vermelho.push([[numero],[mensagem5]])
@@ -130,13 +133,12 @@ async function listMajors(auth) {
         console.log(valores_vermelho)
       }
 
-      else if (rows[index][5] != '' && rows[index][4] == '') {
-        var data_planilha = rows[index][5]
-        var currentDate = new Date();
-        var dataArray = data_planilha.split("/");
-        var novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
-        var diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
-        console.log(diferenca)
+      if (rows[index][5] != '' && rows[index][4] == '') {
+        let data_planilha = rows[index][5]
+        let currentDate = new Date();
+        let dataArray = data_planilha.split("/");
+        let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+        let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
         if (diferenca > 7) {
           console.log("A data fornecida está mais de 7 dias no passado");
           numero = rows[index][9]
@@ -146,24 +148,30 @@ async function listMajors(auth) {
           console.log(valores_cinza)
         } 
       }
-      // else if (rows[index][5]. == '²' ){
+      if (rows[index][5][0] == '²' && rows[index][4] == '' ){
         
-      //   let inputDate = new Date(rows[index][5].substring(1));
-      //   let currentDate = new Date();
-      //   let difference = inputDate.getTime() - currentDate.getTime();
-      //   let daysDifference = difference / (1000 * 3600 * 24);
-      //   if (daysDifference < -14) {
-      //     console.log("A data fornecida está mais de 14 dias no passado");
-      //     numero = rows[index][9]
-      //     mensagem7 = rows[index][22]
-      //     valores_cinza_forte.push([[numero],[mensagem7]])
-      //     linha_adicionar_cinza_forte.push(index + 1)
-      //     console.log(valores_cinza_forte)
-      //   } 
+        let data_planilha = rows[index][5].substring(1)
+        let currentDate = new Date();
+        let dataArray = data_planilha.split("/");
+        let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+        let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+        if (diferenca > 14) {
+          console.log("A data fornecida está mais de 14 dias no passado");
+          numero = rows[index][9]
+          mensagem7 = rows[index][22]
+          valores_cinza_forte.push([[numero],[mensagem7]])
+          linha_adicionar_cinza_forte.push(index + 1)
+          console.log(valores_cinza_forte)
+        } 
+      }
 
-
-
-      // }
+      if (rows[index][2] == "Realizada" && rows[index][0] == 'Aprovado(a)') {
+        numero = rows[index][9]
+        mensagem4 = rows[index][23]
+        valores_ciano.push([[numero],[mensagem4]])
+        linha_adicionar_ciano.push(index + 1)
+        console.log(valores_ciano)
+    }
 
 
     }
@@ -190,7 +198,8 @@ async function listMajors(auth) {
         console.log(`valores_verde a serem adicionados: ${valores_verde}`)
         console.log(`valores_vermelho a serem adicionados: ${valores_vermelho}`)
         console.log(`valores_cinza a serem adicionados: ${valores_cinza}`)
-        console.log(`valores_cinza a serem adicionados: ${valores_cinza_forte}`)
+        console.log(`valores_cinza forte a serem adicionados: ${valores_cinza_forte}`)
+        console.log(`valores_cinza forte a serem adicionados: ${valores_ciano}`)
         //Manda mensagem e insere a data
         if (valores_rosa_claro != '') {
           let nomes = []
@@ -238,7 +247,6 @@ async function listMajors(auth) {
               client.sendMessage(numero_enviar, mensagem4[index][0])
           }
         }
-
         if (valores_vermelho != '') {
           let telefones = []
           let mensagem5 = []
@@ -255,8 +263,6 @@ async function listMajors(auth) {
               client.sendMessage(numero_enviar, mensagem5[index][0])
           }
         }
-
-
         if (valores_cinza != '') {
           let telefones = []
           let mensagem6 = []
@@ -290,6 +296,23 @@ async function listMajors(auth) {
               client.sendMessage(numero_enviar, mensagem7[index][0])
           }
         }
+
+        if (valores_ciano != '') {
+          let telefones = []
+          let mensagem8 = []
+      
+  
+          for (let index = 0; index < valores_ciano.length; index++) {
+              telefones.push(valores_ciano[index][0])
+              mensagem8.push(valores_ciano[index][1])
+
+          }
+          for (let index = 0; index < telefones.length; index++) {
+              numero_enviar = '55' + telefones[index][0].replace(/\D/g, '') + '@c.us'
+              console.log(`${numero_enviar} Mensagem ciano `)
+              client.sendMessage(numero_enviar, mensagem8[index][0])
+          }
+        }
        
     });
     client.initialize();
@@ -300,6 +323,7 @@ async function listMajors(auth) {
     }
     for (let index = 0; index < linha_adicionar_verde.length; index++) {
       adicionar_data_verde(linha_adicionar_verde[index])
+      adicionar_aguardar_agendamento(linha_adicionar_verde[index])
     }
 
     for (let index = 0; index < linha_adicionar_vermelho.length; index++) {
@@ -311,9 +335,16 @@ async function listMajors(auth) {
     }
 
     for (let index = 0; index < linha_adicionar_cinza_forte.length; index++) {
-      adicionar_data_cinza(linha_adicionar_cinza_forte[index])
+      adicionar_data_cinza_forte(linha_adicionar_cinza_forte[index])
+      adicionar_duastentativas(linha_adicionar_cinza_forte[index])
     }
 
+    for (let index = 0; index < linha_adicionar_ciano.length; index++) {
+      adicionar_data_ciano(linha_adicionar_ciano[index])
+    }
+   
+
+    
     function adicionar_data_vermelho(linha){
       
       let values = [
@@ -460,12 +491,90 @@ async function listMajors(auth) {
     }
     }
 
-    function diffInMonths(startDate, endDate) {
-      let diff = endDate.getTime() - startDate.getTime();
-      let diffInDays = diff / (1000 * 60 * 60 * 24);
-      let diffInMonths = diffInDays / 30.4375;
-      return diffInMonths;
+    function adicionar_duastentativas(linha){
+      
+      let values = [
+        [
+        'Duas tentativas sem resposta'
+        ],
+      ];
+      const resource = {
+        values,
+      };
+
+      try {
+        const result = sheets.spreadsheets.values.update({
+          spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+          range: `Principal!A${linha}`,
+          valueInputOption: 'RAW',
+          resource,
+        });
+  
+        return result;
+      } catch (err) {
+        // TODO (Developer) - Handle exception
+        throw err;
     }
+    }
+
+
+    function adicionar_aguardar_agendamento(linha){
+      
+      let values = [
+        [
+        'Aguardando agendamento'
+        ],
+      ];
+      const resource = {
+        values,
+      };
+
+      try {
+        const result = sheets.spreadsheets.values.update({
+          spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+          range: `Principal!C${linha}`,
+          valueInputOption: 'RAW',
+          resource,
+        });
+  
+        return result;
+      } catch (err) {
+        // TODO (Developer) - Handle exception
+        throw err;
+    }
+    }
+
+    function adicionar_data_ciano(linha){
+      let data = new Date();
+      let dia = String(data.getDate()).padStart(2, '0');
+      let mes = String(data.getMonth() + 1).padStart(2, '0');
+      let ano = data.getFullYear();
+      dataAtual = dia + '/' + mes + '/' + ano;
+      let values = [
+        [
+        dataAtual
+        ],
+      ];
+      const resource = {
+        values,
+      };
+
+      try {
+        const result = sheets.spreadsheets.values.update({
+          spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+          range: `Principal!B${linha}`,
+          valueInputOption: 'RAW',
+          resource,
+        });
+  
+        return result;
+      } catch (err) {
+        // TODO (Developer) - Handle exception
+        throw err;
+    }
+    }
+
+    
     
 }
 
