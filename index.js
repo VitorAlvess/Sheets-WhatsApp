@@ -93,19 +93,21 @@ async function listMajors(auth) {
     var linha_adicionar_rosa_claro = []
     var valores_verde = []
     var linha_adicionar_verde = []
+    var valores_verde_escuro = []
+    var linha_adicionar_verde_escuro = []
     var valores_vermelho = []
     var linha_adicionar_vermelho = []
     var valores_cinza = []
     var linha_adicionar_cinza = []
-
     var valores_cinza_forte = []
     var linha_adicionar_cinza_forte = []
-
     var valores_ciano = []
     var linha_adicionar_ciano = []
+    var valores_branco = []
+    var linha_adicionar_branco = []
 
-
-    for (let index = 0; index < rows.length; index++) {
+    // alterar o valor de 4 para  rows.length
+    for (let index = 0; index < 5; index++) { 
       
 
       if (rows[index][6] === "TRUE" && rows[index][5] == '') {
@@ -183,16 +185,17 @@ async function listMajors(auth) {
           numero = rows[index][9]
           mensagem9 = rows[index][23]
           valores_verde_escuro.push([[numero],[mensagem9]])
-          linha_adicionar_verde_es.push(index + 1)
-          console.log(valores_verde_es)
+          linha_adicionar_verde_escuro.push(index + 1)
+          console.log(valores_verde_escuro)
         }
-
-
-
-
-
-        
       }
+
+      if (rows[index][2] == "Faltou primeira vez") {
+        numero = rows[index][9]
+        mensagem10 = rows[index][24]
+        valores_branco.push([[numero],[mensagem10]])
+        linha_adicionar_branco.push(index + 1)
+        console.log(valores_branco)
 
 
     }
@@ -334,6 +337,24 @@ async function listMajors(auth) {
               client.sendMessage(numero_enviar, mensagem8[index][0])
           }
         }
+
+
+        if (valores_branco != '') {
+          let telefones = []
+          let mensagem10 = []
+      
+  
+          for (let index = 0; index < valores_branco.length; index++) {
+              telefones.push(valores_branco[index][0])
+              mensagem10.push(valores_branco[index][1])
+
+          }
+          for (let index = 0; index < telefones.length; index++) {
+              numero_enviar = '55' + telefones[index][0].replace(/\D/g, '') + '@c.us'
+              console.log(`${numero_enviar} Mensagem Branco `)
+              client.sendMessage(numero_enviar, mensagem5[index][0])
+          }
+        }
        
     });
     client.initialize();
@@ -363,8 +384,10 @@ async function listMajors(auth) {
     for (let index = 0; index < linha_adicionar_ciano.length; index++) {
       adicionar_data_ciano(linha_adicionar_ciano[index])
     }
-   
-
+    for (let index = 0; index < linha_adicionar_branco.length; index++) {
+      adicionar_agenda_segunda_vez(linha_adicionar_branco[index])
+    }
+  
     
     function adicionar_data_vermelho(linha){
       
@@ -595,8 +618,35 @@ async function listMajors(auth) {
     }
     }
 
+    function adicionar_agenda_segunda_vez(linha){
+      
+      let values = [
+        [
+        'Agendada segunda vez'
+        ],
+      ];
+      const resource = {
+        values,
+      };
+
+      try {
+        const result = sheets.spreadsheets.values.update({
+          spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+          range: `Principal!C${linha}`,
+          valueInputOption: 'RAW',
+          resource,
+        });
+  
+        return result;
+      } catch (err) {
+        // TODO (Developer) - Handle exception
+        throw err;
+    }
+    }
+
     
     
+  }
 }
 
 authorize().then(listMajors).catch(console.error);
