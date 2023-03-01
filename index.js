@@ -223,7 +223,7 @@ async function listMajors(auth) {
         console.log(`valores_vermelho a serem adicionados: ${valores_vermelho}`)
         console.log(`valores_cinza a serem adicionados: ${valores_cinza}`)
         console.log(`valores_cinza forte a serem adicionados: ${valores_cinza_forte}`)
-        console.log(`valores_cinza forte a serem adicionados: ${valores_ciano}`)
+        console.log(`valores_cinza a serem adicionados: ${valores_ciano}`)
         //Manda mensagem e insere a data
         if (valores_rosa_claro != '') {
           let nomes = []
