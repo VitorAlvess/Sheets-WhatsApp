@@ -135,21 +135,7 @@ async function listMajors(auth) {
         console.log(valores_vermelho)
       }
 
-      if (rows[index][5] != '' && rows[index][4] == '') {
-        let data_planilha = rows[index][5]
-        let currentDate = new Date();
-        let dataArray = data_planilha.split("/");
-        let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
-        let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
-        if (diferenca > 7) {
-          console.log("A data fornecida está mais de 7 dias no passado");
-          numero = rows[index][9]
-          mensagem6 = rows[index][21]
-          valores_cinza.push([[numero],[mensagem6]])
-          linha_adicionar_cinza.push(index + 1)
-          console.log(valores_cinza)
-        } 
-      }
+      
       if (rows[index][5][0] == '²' && rows[index][4] == '' ){
         
         let data_planilha = rows[index][5].substring(1)
