@@ -327,6 +327,8 @@ sheets().then((valores) => {
     client.on('ready', () => {
         console.log('Client is ready!');
         formatado = []
+        const messagePromises = [];
+
         for (let index = 0; index < todas_acoes.length; index++) {
             for (let index_dentro = 0; index_dentro < todas_acoes[index].length; index_dentro++) {
                 array = []
@@ -348,12 +350,26 @@ sheets().then((valores) => {
         console.log(formatado)
         for (let enviar = 0; enviar < formatado.length; enviar++) {
 
-            client.sendMessage(formatado[enviar][0], '') //para não bugar a ordem de envio
-            client.sendMessage(formatado[enviar][0],formatado[enviar][1])
+            messagePromises.push(client.sendMessage(formatado[enviar][0], '')) //para não bugar a ordem de envio
+            messagePromises.push(client.sendMessage(formatado[enviar][0],formatado[enviar][1]))
             console.log(formatado[enviar][0],formatado[enviar][1])
         }
         
-
+        Promise.allSettled(messagePromises)
+        .then(() => {
+          console.log('Todas as mensagens foram enviadas!');
+          // Aguarde 2 minutos antes de encerrar a instância do WhatsApp Web
+          setTimeout(() => {
+            client.destroy();
+          }, 120000);
+        })
+        .catch((error) => {
+          console.error('Erro ao enviar mensagem:', error);
+          // Aguarde 2 minutos antes de encerrar a instância do WhatsApp Web
+          setTimeout(() => {
+            client.destroy();
+          }, 120000);
+        });
 
 
 
