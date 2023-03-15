@@ -180,11 +180,57 @@ function sheets(){
 
                     adicionar_texto('A', index + 1, 'Duas tentativas sem resposta')
                     valores.push([[numero],[mensagem7]])
-                //   linha_adicionar_cinza.push(index + 1)
-                //   console.log(valores_cinza)
                 } 
               }
+
+              if (row[2] == "Realizada" && row[0] == 'Aprovado(a)' && row[1] == '') {
+                nome = row[7]
+                numero = row[9]
+                mensagem8 = row[23]
+                mensagem8 = mensagem8.replace("[Primeiro nome]", nome.split(" ")[0])
+                valores.push([[numero],[mensagem8]])
+                adicionar_data('B', index + 1)
+              }
+
+              if (row[2] == "Aguardando agendamento" && row[3] != '') {
+                let data_planilha = row[3]
+                let currentDate = new Date();
+                let dataArray = data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 14) {
+                    numero = row[9]
+                    nome = row[7]
+                    mensagem9 = row[24]
+                    mensagem9 = mensagem9.replace("[Primeiro nome]", nome.split(" ")[0])
+                    mensagem9 = mensagem9.replace("[primeiro nome]", nome.split(" ")[0])
+
+                    valores.push([[numero],[mensagem9]])
+                    adicionar_texto("C", index + 1, "Mensagem enviada de aguardando agendamento")
+                }
+              }
+
+              if (row[2] == "Faltou primeira vez") {
+                nome = row[7]
+                numero = row[9]
+                mensagem10 = row[25]
+                mensagem10 = mensagem10.replace("[Primeiro nome]", nome.split(" ")[0])
+                mensagem10 = mensagem10.replace("[primeiro nome]", nome.split(" ")[0])
+                valores.push([[numero],[mensagem10]])
+                adicionar_texto("C", index + 1, "Agendada segunda vez")    
+            }
+
+            if (row[2] == "Faltou segunda vez" && row[0] != 'Duas faltas no agendamento') {
+                nome = row[7]
+                numero = row[9]
+                mensagem11 = row[26]
+                mensagem11 = mensagem11.replace("[Primeiro nome]", nome.split(" ")[0])
+                mensagem11 = mensagem11.replace("[primeiro nome]", nome.split(" ")[0])
+                valores.push([[numero],[mensagem11]])
+                adicionar_texto("A", index + 1, "Duas faltas no agendamento")    
+            }
         }
+
       });
       return valores
         function adicionar_data(coluna,linha){
@@ -258,6 +304,8 @@ sheets().then((valores) => {
     else{
 
         whats(valores)
+        
+
     }
   });
 
@@ -304,6 +352,7 @@ sheets().then((valores) => {
             client.sendMessage(formatado[enviar][0],formatado[enviar][1])
             console.log(formatado[enviar][0],formatado[enviar][1])
         }
+        
 
 
 
