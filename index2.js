@@ -106,6 +106,11 @@ function sheets(){
                 console.log('Existe algum problema no carregamento de dados da API do google sheets')
                 return
             }
+            if (row[16] == '#N/A') {
+              console.log('Mensagem de vaga não cadastrada')
+              return
+              
+          }
             if (row[5] == '') {
               
                 nome = row[7]
@@ -326,6 +331,7 @@ sheets().then((valores) => {
     
     client.on('ready', () => {
         console.log('Client is ready!');
+       
         formatado = []
         const messagePromises = [];
 
@@ -348,12 +354,17 @@ sheets().then((valores) => {
             }
         }
         console.log(formatado)
+
         for (let enviar = 0; enviar < formatado.length; enviar++) {
 
             messagePromises.push(client.sendMessage(formatado[enviar][0], '')) //para não bugar a ordem de envio
             messagePromises.push(client.sendMessage(formatado[enviar][0],formatado[enviar][1]))
             console.log(formatado[enviar][0],formatado[enviar][1])
+            // client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
+
+            client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
         }
+        
         
         Promise.allSettled(messagePromises)
         .then(() => {
