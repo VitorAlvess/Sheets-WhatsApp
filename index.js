@@ -15,6 +15,8 @@ array_mensagens = [  [    [ '(11) 99190-9436' ],
 [      'Mensagem informando sobre a necessidade de realizar um teste prático'    ] , ['Mensagens 1']
 ]
 ]
+const nodemailer = require('nodemailer')
+
 
 function sheets(){
     const fs = require('fs').promises;
@@ -22,6 +24,7 @@ function sheets(){
     const process = require('process');
     const {authenticate} = require('@google-cloud/local-auth');
     const {google} = require('googleapis');
+    
     var valores = []
     // If modifying these scopes, delete token.json.
     const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
@@ -95,6 +98,31 @@ function sheets(){
         spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
         range: 'Principal!A:Z',
     });
+    const mensagem_email = await sheets.spreadsheets.values.get({
+      spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+      range: 'Principal!AZ:AZ',
+    });
+
+    // const confirmar_autentique = await sheets.spreadsheets.values.get({
+    //   spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+    //   range: 'Principal!A:AY',
+    // });
+   
+
+    // const rows_autentique = confirmar_autentique.data.values
+    // rows_autentique.forEach((row_autentique, index) => {
+      
+    //   if (row_autentique[6] == 'TRUE') {
+       
+    //     // if (row_autentique[50] == 'TRUE' && row_autentique[0] != 'Termo adesão enviado' ){
+        
+    //     //   adicionar_texto('A',index + 1, 'Termo adesão enviado' )
+    //     //   console.log('Alterei', index + 1)
+    //     //   console.log('Nome da pessoa', row_autentique[8])
+
+    //     // }
+    //   }
+    // })
     const rows = res.data.values;
     if (!rows || rows.length === 0) {
         console.log('No data found.');
@@ -102,12 +130,14 @@ function sheets(){
     }
     rows.forEach((row, index) => {
         if (row[6] == 'TRUE') {
+            
+
             if (row[16] == 'Carregando…') {
                 console.log('Existe algum problema no carregamento de dados da API do google sheets')
                 return
             }
-            if (row[16] == '#N/A') {
-              console.log('Mensagem de vaga não cadastrada')
+            if (row[16] == '#N/A' && row[11] != 'ADM Cursinho') {
+              console.log('Mensagem de vaga não cadastrada', index + 1)
               return
               
           }
@@ -122,6 +152,7 @@ function sheets(){
                 valores.push([[numero], [mensagem1], [mensagem2], [mensagem3]])
                 coluna = "F"
                 adicionar_data(coluna,index + 1)
+                mandar_email_inicial(nome, numero,row[8])
                
             }
 
@@ -133,6 +164,7 @@ function sheets(){
                 valores.push([[numero],[mensagem4]])
                 coluna = "D"
                 adicionar_data(coluna,index + 1)   
+                adicionar_texto("C", index + 1, "Aguardando agendamento")
             }
 
             if (row[4] == "Incompatível com a vaga" && row[0] == '') {
@@ -173,6 +205,39 @@ function sheets(){
                 let dataArray = data_planilha.split("/");
                 let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
                 let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 14) {
+                //   console.log("A data fornecida está mais de 21 dias no passado");
+                    nome = row[7]
+                    numero = row[9]
+                    // mensagem7 = row[22]
+                    texto = "E-mail enviado"
+                    coluna = "E"
+                    // mensagem7 = mensagem7.replace("[primeiro nome]", nome.split(" ")[0])
+                    adicionar_texto(coluna, index + 1, texto)
+                    console.log('Alterei', index + 1)
+                    console.log('Nome da vaga', row[11])
+                    textos = mensagem_email.data.values;
+                    // console.log(textos[index])
+                   
+                    console.log(row[8])
+                    mandar_email(nome,textos[index],row[11],numero,row[8])
+              
+                   
+                } 
+              }
+
+
+
+
+
+
+
+              if (row[5] != '' && row[4] == 'E-mail enviado') {
+                let data_planilha = row[5]
+                let currentDate = new Date();
+                let dataArray = data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
                 if (diferenca > 21) {
                 //   console.log("A data fornecida está mais de 21 dias no passado");
                     nome = row[7]
@@ -195,9 +260,10 @@ function sheets(){
                 mensagem8 = mensagem8.replace("[Primeiro nome]", nome.split(" ")[0])
                 valores.push([[numero],[mensagem8]])
                 adicionar_data('B', index + 1)
+                adicionar_texto("A", index + 1, "Responder formulário adesão")
               }
 
-              if (row[2] == "Aguardando agendamento" && row[3] != '') {
+              if (row[2] == "Aguardando agendamento" && row[3] != '') { 
                 let data_planilha = row[3]
                 let currentDate = new Date();
                 let dataArray = data_planilha.split("/");
@@ -222,7 +288,7 @@ function sheets(){
                 mensagem10 = mensagem10.replace("[Primeiro nome]", nome.split(" ")[0])
                 mensagem10 = mensagem10.replace("[primeiro nome]", nome.split(" ")[0])
                 valores.push([[numero],[mensagem10]])
-                adicionar_texto("C", index + 1, "Agendada segunda vez")    
+                adicionar_texto("C", index + 1, "Segunda tentativa de agendamento")    
             }
 
             if (row[2] == "Faltou segunda vez" && row[0] != 'Duas faltas no agendamento') {
@@ -234,7 +300,99 @@ function sheets(){
                 valores.push([[numero],[mensagem11]])
                 adicionar_texto("A", index + 1, "Duas faltas no agendamento")    
             }
+
+            if(row[0] == 'P1P4 Enviar mensagem de termo de adesão'){
+              numero = row[9]
+              nome = row[7]
+              mensagem_termo_assinar = 'Oi, [Primeiro nome], agradecemos por ter fornecido as informações. Acabei de enviar para o e-mail informado o termo para ser assinado digitalmente. É só seguir o passo a passo. É super simples, mas se tiver alguma dúvida, pode me chamar que eu respondo em breve'
+              mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
+              mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
+
+              valores.push([[numero],[mensagem_termo_assinar]])
+              adicionar_texto('A', index + 1, 'Termo adesão enviado')
+            }
+
+
+
+
+            // está com Termo de adessão assinado e com uma data 7 dias no passado. 
+            if (row[0] == "Termo adesão enviado") {
+              console.log('entrei no termo de adesão enviado')
+              let data_planilha = row[1]
+              let currentDate = new Date();
+              let dataArray = data_planilha.split("/");
+              let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+              let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+              if (diferenca > 7) {
+                  numero = row[9]
+                  nome = row[7]
+                  mensagem_termo_assinar = 'Olá, [Primeiro nome], espero que esteja bem... Vi aqui que você ainda não assinou o Termo de Adesão ao Voluntariado. Esse documento é super importante para nós. Você teve alguma dificuldade? Qualquer coisa, me chama aqui...'
+                  mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
+                  mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
+
+                  valores.push([[numero],[mensagem_termo_assinar]])
+                  adicionar_data_termo_adesao("B", index + 1, '¹')
+              }
+              if (row[1].charAt() == '¹'){
+                
+                let data_planilha = row[1]
+                nova_data_planilha = data_planilha.substring(1);
+                let currentDate = new Date();
+                let dataArray = nova_data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 7) {
+                  numero = row[9]
+                  nome = row[7]
+                  mensagem_termo_assinar = 'Olá, [Primeiro nome], espero que esteja bem... Vi aqui que você ainda não assinou o Termo de Adesão ao Voluntariado. Esse documento é super importante para nós. Você teve alguma dificuldade? Qualquer coisa, me chama aqui...'
+                  mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
+                  mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
+
+                  valores.push([[numero],[mensagem_termo_assinar]])
+                  adicionar_data_termo_adesao("B", index + 1, '²')
+                }
+
+              }
+              if (row[1].charAt() == '²'){
+                
+                let data_planilha = row[1]
+                nova_data_planilha = data_planilha.substring(1);
+                let currentDate = new Date();
+                let dataArray = nova_data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 7) {
+                  numero = row[9]
+                  nome = row[7]
+                  mensagem_termo_assinar = 'Olá, [Primeiro nome], espero que esteja bem... Vi aqui que você ainda não assinou o Termo de Adesão ao Voluntariado. Esse documento é super importante para nós. Você teve alguma dificuldade? Qualquer coisa, me chama aqui...'
+                  mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
+                  mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
+
+                  valores.push([[numero],[mensagem_termo_assinar]])
+                  adicionar_data('B', index + 1)
+                  adicionar_texto('A', index + 1, 'ADM Contatar')
+                }
+
+              }
+
+                   
+               
+              // nome = row[7]
+              // numero = row[9]
+              // mensagem11 = row[26]
+              // mensagem11 = mensagem11.replace("[Primeiro nome]", nome.split(" ")[0])
+              // mensagem11 = mensagem11.replace("[primeiro nome]", nome.split(" ")[0])
+              // valores.push([[numero],[mensagem11]])
+              // adicionar_texto("A", index + 1, "Duas faltas no agendamento")    
+          }
         }
+
+
+            
+            
+
+
+
 
       });
       return valores
@@ -267,6 +425,37 @@ function sheets(){
           throw err;
       }
         }
+
+        function adicionar_data_termo_adesao(coluna,linha,ordem){
+          let data = new Date();
+          let dia = String(data.getDate()).padStart(2, '0');
+          let mes = String(data.getMonth() + 1).padStart(2, '0');
+          let ano = data.getFullYear();
+          dataAtual = dia + '/' + mes + '/' + ano;
+          data_formatada = ordem + dataAtual
+          let values = [
+            [
+            data_formatada
+            ],
+          ];
+          const resource = {
+            values,
+          };
+      
+          try {
+            const result = sheets.spreadsheets.values.update({
+              spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+              range: `Principal!${coluna+linha}`,
+              valueInputOption: 'RAW',
+              resource,
+            });
+      
+            return result;
+          } catch (err) {
+            // TODO (Developer) - Handle exception
+            throw err;
+        }
+          }
 
 
         function adicionar_texto(coluna,linha,texto){
@@ -404,6 +593,83 @@ sheets().then((valores) => {
 console.log('FINALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL')
 // console.log(sheets())
 // // whats(array_mensagens)
+
+
+
+
+function mandar_email(nome, mensagem, vaga, telefone, email){
+  const data = require('./email.json');
+  let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: 'opipa@opipa.org', // generated ethereal user
+        pass: data.token, // generated ethereal password
+      },
+  });
+  console.log(mensagem)
+  email = email.toString()
+  mensagem = mensagem.toString();
+  // mensagem = mensagem.replace("[Primeiro nome]", nome.split(" ")[0])
+  mensagem = mensagem.replace("[primeiro nome]", nome.split(" ")[0])
+  mensagem = mensagem.replace("[número telefone informado]", telefone)
+  titulo = "Vaga de Voluntariado - [ Nome da vaga ]"
+  titulo = titulo.replace("[ Nome da vaga ]", vaga)
+    // send mail with defined transport object
+  // let info = await 
+  transporter.sendMail({
+  from: '"PiPA 🪁" <daniel.mariano@opipa.org>', // sender address
+  to: email, // list of receivers
+  subject: titulo, // Subject line
+  text: `${mensagem}`, // plain text body
+  // html: `${mensagem}`, // html body
+  })
+  .then(() => console.log('Email Enviado'))
+  .catch((err) => console.log('Erro ao enviar o email', err))
+}
+
+
+function mandar_email_inicial(nome, telefone, email){
+  mensagem = `Oi, [Nome da pessoa] aqui é da Associação PiPA🪁 
+
+  Que alegria saber de sua candidatura ao voluntariado!
+  
+  Nosso meio de comunicação que tem dado mais certo pra nós é o WhatsApp. E por isso acabamos de enviar uma mensagem para você por lá. 
+  No cadastro do Atados aparece que seu telefone é [número celular], se este número não for WhatsApp você poderia nos avisar?
+  
+  Um abraço,
+  
+  Equipe PiPA 🪁`
+  const data = require('./email.json');
+  let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: 'opipa@opipa.org', // generated ethereal user
+        pass: data.token, // generated ethereal password
+      },
+  });
+  console.log(mensagem)
+  email = email.toString()
+  mensagem = mensagem.toString();
+  // mensagem = mensagem.replace("[Primeiro nome]", nome.split(" ")[0])
+  mensagem = mensagem.replace("[Nome da pessoa]", nome.split(" ")[0])
+  mensagem = mensagem.replace("[número celular]", telefone)
+  titulo = "Voluntariado - Vai voar no PiPA com a gente?"
+    // send mail with defined transport object
+  // let info = await 
+  transporter.sendMail({
+  from: '"PiPA 🪁" <opipa@opipa.org>', // sender address
+  to: email, // list of receivers
+  subject: titulo, // Subject line
+  text: `${mensagem}`, // plain text body
+  // html: `${mensagem}`, // html body
+  })
+  .then(() => console.log('Email Enviado'))
+  .catch((err) => console.log('Erro ao enviar o email', err))
+}
 
 
 

@@ -6,6 +6,7 @@ settings_pessoal.json
 *.xlsx
 token.json
 credentials.json
+email.json
 contatos.csv
 token2.json
 node_modules
