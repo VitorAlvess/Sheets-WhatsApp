@@ -178,7 +178,7 @@ function sheets(){
                 adicionar_texto(coluna, index + 1, texto)
               }
 
-              if (row[5] != '' && row[4] == '') {
+              if (row[5] != '' && row[4] == 'E-mail enviado') {
                 let data_planilha = row[5]
                 let currentDate = new Date();
                 let dataArray = data_planilha.split("/");
@@ -280,7 +280,42 @@ function sheets(){
                     adicionar_texto("C", index + 1, "Mensagem enviada de aguardando agendamento")
                 }
               }
+              if (row[2] == 'Mensagem enviada de aguardando agendamento' && row[0] == ''){
+                let data_planilha = row[3]
+                let currentDate = new Date();
+                let dataArray = data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 14) {
+                    numero = row[9]
+                    nome = row[7]
+                    mensagem9 = row[24]
+                    mensagem9 = mensagem9.replace("[Primeiro nome]", nome.split(" ")[0])
+                    mensagem9 = mensagem9.replace("[primeiro nome]", nome.split(" ")[0])
 
+                    valores.push([[numero],[mensagem9]])
+                    adicionar_texto("C", index + 1, "Segunda mensagem de aguardando agendamento enviada")
+                }
+              }
+
+              if (row[2] == 'Segunda mensagem de aguardando agendamento enviada' && row[0] == ''){
+                let data_planilha = row[3]
+                let currentDate = new Date();
+                let dataArray = data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 21) {
+                    numero = row[9]
+                    nome = row[7]
+                    mensagem7 = row[22]
+                    mensagem7 = mensagem7.replace("[Primeiro nome]", nome.split(" ")[0])
+                    mensagem7 = mensagem7.replace("[primeiro nome]", nome.split(" ")[0])
+
+                    valores.push([[numero],[mensagem7]])
+                    adicionar_texto("A", index + 1, "Duas tentativas sem resposta")
+                }
+
+              }
               if (row[2] == "Faltou primeira vez") {
                 nome = row[7]
                 numero = row[9]
@@ -317,7 +352,6 @@ function sheets(){
 
             // está com Termo de adessão assinado e com uma data 7 dias no passado. 
             if (row[0] == "Termo adesão enviado") {
-              console.log('entrei no termo de adesão enviado')
               let data_planilha = row[1]
               let currentDate = new Date();
               let dataArray = data_planilha.split("/");
@@ -549,7 +583,7 @@ sheets().then((valores) => {
             messagePromises.push(client.sendMessage(formatado[enviar][0], '')) //para não bugar a ordem de envio
             messagePromises.push(client.sendMessage(formatado[enviar][0],formatado[enviar][1]))
             console.log(formatado[enviar][0],formatado[enviar][1])
-            // client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
+            client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
 
             client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
         }

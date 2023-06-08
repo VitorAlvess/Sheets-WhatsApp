@@ -1,57 +1,42 @@
-const nodemailer = require('nodemailer')
 
 
 
-function mandar_email(nome, mensagem, vaga, telefone){
 
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-          user: 'daniel.mariano@opipa.org', // generated ethereal user
-          pass: 'dbzqshuightfemxn', // generated ethereal password
-        },
-    });
-    mensagem = mensagem.replace("[Primeiro nome]", nome.split(" ")[0])
-    mensagem = mensagem.replace("[primeiro nome]", nome.split(" ")[0])
-    mensagem = mensagem.replace("[número telefone informado]", telefone)
-    titulo = "Vaga de Voluntariado - [ Nome da vaga ]"
-    titulo = titulo.replace("[ Nome da vaga ]", vaga)
-      // send mail with defined transport object
-    // let info = await 
-    transporter.sendMail({
-    from: '"OPiPA 🪁" <daniel.mariano@opipa.org>', // sender address
-    to: "vitorsantosalves2014@gmail.com", // list of receivers
-    subject: titulo, // Subject line
-    text: `${mensagem}`, // plain text body
-    // html: `${mensagem}`, // html body
-    })
-    .then(() => console.log('Email Enviado'))
-    .catch((err) => console.log('Erro ao enviar o email', err))
+
+
+function duplicanumerosporcausadonove (Numero){
+  var numero = Numero.replace(/\D/g, '');
+  // Verificar se o número tem 11 dígitos
+  if (numero.length >= 13) {
+    if (numero.substring(0, 2) === "55") {
+      // Remove os dois primeiros dígitos
+      numero = numero.substring(2);
+      console.log("Número válido após remoção dos dígitos iniciais: " + numero);      
+    }
+  }
+     
+  
+  
+ 
+  var copia_numero = numero
+  if (numero.substring(2, 4) === "99") {
+    numero = numero.substring(0, 2) + numero.substring(4);
+ 
+    
+  }
+  if (numero.substring(2, 4) != "99") {
+    numero = numero.substring(0, 2) + "9" + numero.substring(2);
+    
+    
+  }
+  
+  console.log("Número de telefone atualizado: " + numero);
+  console.log("Número de telefone antigo: " + copia_numero);
+
+  return { resultado1: copia_numero, resultado2: numero };
+  
 }
+let { resultado1, resultado2} = duplicanumerosporcausadonove('45119945274604')
 
-
-
-
-
-
-
-
-enviar = `Oi, [primeiro nome]. Como está? 
-
-Aqui é da Associação PiPA🪁 
-
-Estamos te enviando este e-mail porque tentamos contato pelo WhatsApp [número telefone informado] e não recebemos respostas. 
-
-Caso o número informado esteja errado, ou você não tenha WhatsApp, poderia nos informar para facilitar o contato?
-
-De todo modo, você se interessou em nossa vaga de voluntariado ""[Nome da vaga na linha 1 desta planilha, neste caso seria Vaga Teste]"" - [LINK da Vaga no Atados] , para a função de ""[NOME DA FUNÇÃO NA ABA PRINCIPAL DESTA PLANILHA]"" . É motivo de muita alegria saber que você se interessa em apoiar ações de nossa organização que atua na periferia de São Paulo 😁
-
-O próximo passo para sua candidatura é responder ao formulário a seguir e, nos próximos dias, ter atenção ao seu e-mail. Recomendo que antes de responder olhe novamente a vaga lá no site do Atados. Vamos lá? 
-
-Formulário inicial: https://bityli.com/candidatura-voluntariado-pipa  
-
-Qualquer dúvida, só me chamar 😉`
-
-mandar_email('José Victor', enviar)
+console.log(resultado1); // 10
+console.log(resultado2); // 20
