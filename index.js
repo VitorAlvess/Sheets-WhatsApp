@@ -149,7 +149,15 @@ function sheets(){
                 mensagem1 = mensagem1.replace("[primeiro nome]", nome.split(" ")[0])
                 mensagem2 = row[17]
                 mensagem3 = row[18]
-                valores.push([[numero], [mensagem1], [mensagem2], [mensagem3]])
+
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+
+
+                valores.push([[resultado1], [mensagem1], [mensagem2], [mensagem3]])
+                valores.push([[resultado2], [mensagem1], [mensagem2], [mensagem3]])
+
+
                 coluna = "F"
                 adicionar_data(coluna,index + 1)
                 mandar_email_inicial(nome, numero,row[8])
@@ -161,7 +169,13 @@ function sheets(){
                 numero = row[9]
                 mensagem4 = row[19]
                 mensagem4 = mensagem4.replace("[primeiro nome]", nome.split(" ")[0])
-                valores.push([[numero],[mensagem4]])
+
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+
+                valores.push([[resultado1],[mensagem4]])
+                valores.push([[resultado2],[mensagem4]])
+
                 coluna = "D"
                 adicionar_data(coluna,index + 1)   
                 adicionar_texto("C", index + 1, "Aguardando agendamento")
@@ -172,13 +186,18 @@ function sheets(){
                 numero = row[9]
                 mensagem5 = row[20]
                 mensagem5 = mensagem5.replace("[primeiro nome]", nome.split(" ")[0])
-                valores.push([[numero],[mensagem5]])
+
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                valores.push([[resultado1],[mensagem5]])
+                valores.push([[resultado2],[mensagem5]])
+
                 coluna = "A"
                 texto = 'Reprovado(a) e informado(a)'
                 adicionar_texto(coluna, index + 1, texto)
               }
 
-              if (row[5] != '' && row[4] == 'E-mail enviado') {
+              if (row[5] != '' && row[4] == '') {
                 let data_planilha = row[5]
                 let currentDate = new Date();
                 let dataArray = data_planilha.split("/");
@@ -193,7 +212,12 @@ function sheets(){
                     coluna = "E"
                     mensagem6 = mensagem6.replace("[primeiro nome]", nome.split(" ")[0])
                     adicionar_texto(coluna, index + 1, texto)
-                    valores.push([[numero],[mensagem6]])
+
+                    let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                    valores.push([[resultado1],[mensagem6]])
+                    valores.push([[resultado2],[mensagem6]])
+
                 //   linha_adicionar_cinza.push(index + 1)
                 //   console.log(valores_cinza)
                 } 
@@ -249,7 +273,12 @@ function sheets(){
                     adicionar_texto(coluna, index + 1, texto)
 
                     adicionar_texto('A', index + 1, 'Duas tentativas sem resposta')
-                    valores.push([[numero],[mensagem7]])
+
+                    let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                    valores.push([[resultado1],[mensagem7]])
+                    valores.push([[resultado2],[mensagem7]])
+
                 } 
               }
 
@@ -276,7 +305,12 @@ function sheets(){
                     mensagem9 = mensagem9.replace("[Primeiro nome]", nome.split(" ")[0])
                     mensagem9 = mensagem9.replace("[primeiro nome]", nome.split(" ")[0])
 
-                    valores.push([[numero],[mensagem9]])
+
+                    let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                    valores.push([[resultado1],[mensagem9]])
+                    valores.push([[resultado2],[mensagem9]])
+
                     adicionar_texto("C", index + 1, "Mensagem enviada de aguardando agendamento")
                 }
               }
@@ -292,8 +326,11 @@ function sheets(){
                     mensagem9 = row[24]
                     mensagem9 = mensagem9.replace("[Primeiro nome]", nome.split(" ")[0])
                     mensagem9 = mensagem9.replace("[primeiro nome]", nome.split(" ")[0])
+                    let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
-                    valores.push([[numero],[mensagem9]])
+                    valores.push([[resultado1],[mensagem9]])
+                    valores.push([[resultado2],[mensagem9]])
+
                     adicionar_texto("C", index + 1, "Segunda mensagem de aguardando agendamento enviada")
                 }
               }
@@ -311,7 +348,12 @@ function sheets(){
                     mensagem7 = mensagem7.replace("[Primeiro nome]", nome.split(" ")[0])
                     mensagem7 = mensagem7.replace("[primeiro nome]", nome.split(" ")[0])
 
-                    valores.push([[numero],[mensagem7]])
+
+                    let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                    valores.push([[resultado1],[mensagem7]])
+                    valores.push([[resultado2],[mensagem7]])
+
                     adicionar_texto("A", index + 1, "Duas tentativas sem resposta")
                 }
 
@@ -322,7 +364,12 @@ function sheets(){
                 mensagem10 = row[25]
                 mensagem10 = mensagem10.replace("[Primeiro nome]", nome.split(" ")[0])
                 mensagem10 = mensagem10.replace("[primeiro nome]", nome.split(" ")[0])
-                valores.push([[numero],[mensagem10]])
+
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                valores.push([[resultado1],[mensagem10]])
+                valores.push([[resultado2],[mensagem10]])
+
                 adicionar_texto("C", index + 1, "Segunda tentativa de agendamento")    
             }
 
@@ -332,7 +379,12 @@ function sheets(){
                 mensagem11 = row[26]
                 mensagem11 = mensagem11.replace("[Primeiro nome]", nome.split(" ")[0])
                 mensagem11 = mensagem11.replace("[primeiro nome]", nome.split(" ")[0])
-                valores.push([[numero],[mensagem11]])
+
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                valores.push([[resultado1],[mensagem11]])
+                valores.push([[resultado2],[mensagem11]])
+
                 adicionar_texto("A", index + 1, "Duas faltas no agendamento")    
             }
 
@@ -343,7 +395,12 @@ function sheets(){
               mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
               mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
 
-              valores.push([[numero],[mensagem_termo_assinar]])
+
+              let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+              valores.push([[resultado1],[mensagem_termo_assinar]])
+              valores.push([[resultado2],[mensagem_termo_assinar]])
+
               adicionar_texto('A', index + 1, 'Termo adesão enviado')
             }
 
@@ -363,8 +420,11 @@ function sheets(){
                   mensagem_termo_assinar = 'Olá, [Primeiro nome], espero que esteja bem... Vi aqui que você ainda não assinou o Termo de Adesão ao Voluntariado. Esse documento é super importante para nós. Você teve alguma dificuldade? Qualquer coisa, me chama aqui...'
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
+                  let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
-                  valores.push([[numero],[mensagem_termo_assinar]])
+                  valores.push([[resultado1],[mensagem_termo_assinar]])
+                  valores.push([[resultado2],[mensagem_termo_assinar]])
+
                   adicionar_data_termo_adesao("B", index + 1, '¹')
               }
               if (row[1].charAt() == '¹'){
@@ -381,8 +441,11 @@ function sheets(){
                   mensagem_termo_assinar = 'Olá, [Primeiro nome], espero que esteja bem... Vi aqui que você ainda não assinou o Termo de Adesão ao Voluntariado. Esse documento é super importante para nós. Você teve alguma dificuldade? Qualquer coisa, me chama aqui...'
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
+                  let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
-                  valores.push([[numero],[mensagem_termo_assinar]])
+                  valores.push([[resultado1],[mensagem_termo_assinar]])
+                  valores.push([[resultado2],[mensagem_termo_assinar]])
+
                   adicionar_data_termo_adesao("B", index + 1, '²')
                 }
 
@@ -402,7 +465,12 @@ function sheets(){
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
 
-                  valores.push([[numero],[mensagem_termo_assinar]])
+
+                  let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+                  valores.push([[resultado1],[mensagem_termo_assinar]])
+                  valores.push([[resultado2],[mensagem_termo_assinar]])
+
                   adicionar_data('B', index + 1)
                   adicionar_texto('A', index + 1, 'ADM Contatar')
                 }
@@ -669,7 +737,7 @@ function mandar_email_inicial(nome, telefone, email){
 
   Que alegria saber de sua candidatura ao voluntariado!
   
-  Nosso meio de comunicação que tem dado mais certo pra nós é o WhatsApp. E por isso acabamos de enviar uma mensagem para você por lá. 
+  Caso não tenha recebido a mensagem pelo WhatsApp, por favor informe-nos. Nosso meio de comunicação que tem dado mais certo pra nós é o WhatsApp. E por isso acabamos de enviar uma mensagem para você por lá. 
   No cadastro do Atados aparece que seu telefone é [número celular], se este número não for WhatsApp você poderia nos avisar?
   
   Um abraço,
@@ -705,6 +773,38 @@ function mandar_email_inicial(nome, telefone, email){
   .catch((err) => console.log('Erro ao enviar o email', err))
 }
 
+function duplicanumerosporcausadonove (Numero){
+  var numero = Numero.replace(/\D/g, '');
+  // Verificar se o número tem 11 dígitos
+  if (numero.length >= 13) {
+    if (numero.substring(0, 2) === "55") {
+      // Remove os dois primeiros dígitos
+      numero = numero.substring(2);
+      console.log("Número válido após remoção dos dígitos iniciais: " + numero);      
+    }
+  }
+     
+  
+  
+ 
+  var copia_numero = numero
+  if (numero.substring(2, 4) === "99") {
+    numero = numero.substring(0, 2) + numero.substring(4);
+ 
+    
+  }
+  if (numero.substring(2, 4) != "99") {
+    numero = numero.substring(0, 2) + "9" + numero.substring(2);
+    
+    
+  }
+  
+  console.log("Número de telefone atualizado: " + numero);
+  console.log("Número de telefone antigo: " + copia_numero);
+
+  return { resultado1: copia_numero, resultado2: numero };
+  
+}
 
 
 

@@ -384,31 +384,31 @@ function sheets(){
             nome = row[3]
             numero = row[21]
             
-            function formatarTelefone(numero) {
-              const numeros = numero.replace(/\D/g, '');
+            // function formatarTelefone(numero) {
+            //   const numeros = numero.replace(/\D/g, '');
             
-              // Verificar se o número tem 11 dígitos
-              if (numeros.length === 13) {
-                if (numero.substring(0, 2) === "55") {
-                  // Remove os dois primeiros dígitos
-                  numero = numero.substring(2);
-                  console.log("Número válido após remoção dos dígitos iniciais: " + numero);
+            //   // Verificar se o número tem 11 dígitos
+            //   if (numeros.length === 13) {
+            //     if (numero.substring(0, 2) === "55") {
+            //       // Remove os dois primeiros dígitos
+            //       numero = numero.substring(2);
+            //       console.log("Número válido após remoção dos dígitos iniciais: " + numero);
                   
-                  console.log(numero)
-                  return numero
-                }
-              }
-              // Verificar se o número tem 10 dígitos
-              // else if (numeros.length === 10) {
-              //   return `(${numeros.substring(0, 2)}) ${numeros.substring(2, 6)}-${numeros.substring(6)}`;
-              // }
-              // Caso contrário, retornar o número original
-              else {
-                return numero;
-              }
-            }
+            //       console.log(numero)
+            //       return numero
+            //     }
+            //   }
+            //   // Verificar se o número tem 10 dígitos
+            //   // else if (numeros.length === 10) {
+            //   //   return `(${numeros.substring(0, 2)}) ${numeros.substring(2, 6)}-${numeros.substring(6)}`;
+            //   // }
+            //   // Caso contrário, retornar o número original
+            //   else {
+            //     return numero;
+            //   }
+            // }
 
-            numero_formatado = formatarTelefone(numero)
+            // numero_formatado = formatarTelefone(numero)
 
             
             mensagem1 = 'Oi, [primeiro nome], tudo certo? Acabamos de atualizar o seu termo de voluntariado no PiPA. E precisamos que você confira os dados se estão corretos e, se estiver tudo certinho, assine digitalmente o termo.'
@@ -417,13 +417,12 @@ function sheets(){
 Um abraço 😊`
 
             
-            let { resultado1, resultado2} = duplicanumerosporcausadonove('119945274604')
+            let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
-            console.log(resultado1); // 10
-            console.log(resultado2); // 20
+           
             
-            valores.push([[numero_formatado], [mensagem1], [mensagem2]])
-            valores.push([[copia_numero_formatado], [mensagem1], [mensagem2]])
+            valores.push([[resultado1], [mensagem1], [mensagem2]])
+            valores.push([[resultado2], [mensagem1], [mensagem2]])
 
             
            
@@ -454,7 +453,13 @@ Um abraço 😊🪁`
                 mensagem3 = mensagem3.replace("[primeiro nome]", nome.split(" ")[0])
                 // mensagem3 = row[17]
                 // mensagem3 = row[18]
-                valores.push([[numero], [mensagem3]])
+
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+
+                valores.push([[resultado1], [mensagem3]])
+                valores.push([[resultado2], [mensagem3]])
+
                 adicionar_texto("A", index + 1, "Segunda mensagem para assinar enviada")
                 adicionar_data("B",index + 1) 
                 }
@@ -479,7 +484,11 @@ Um abraço 😊🪁`
                 mensagem3 = mensagem3.replace("[primeiro nome]", nome.split(" ")[0])
                 // mensagem3 = row[17]
                 // mensagem3 = row[18]
-                valores.push([[numero], [mensagem3]])
+                
+                let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+                valores.push([[resultado1], [mensagem3]])
+                valores.push([[resultado2], [mensagem3]])
+
                 adicionar_texto("A", index + 1, "ADM Contatar")
                 adicionar_data("B",index + 1) 
                 }
@@ -697,21 +706,57 @@ sheets().then((valores) => {
 
 
  // Exemplo de número de telefone
- function duplicanumerosporcausadonove (numero_formatado){
-  var numero = String(numero_formatado)
-  var numero = numero.replace(/\D/g, "")      
+//  function duplicanumerosporcausadonove (numero_formatado){
+//   var numero = String(numero_formatado)
+//   var numero = numero.replace(/\D/g, "")      
+  
+  
+ 
+//   var copia_numero = numero
+//   if (numero.substring(2, 4) === "99") {
+//     numero = numero.substring(0, 2) + numero.substring(4);
+//     numero_sem_nove = numero
+    
+//   }
+//   if (numero.substring(2, 4) != "99") {
+//     numero = numero.substring(0, 2) + "9" + numero.substring(2);
+//     numero_com_nove = numero
+    
+//   }
+  
+//   console.log("Número de telefone atualizado: " + numero);
+//   console.log("Número de telefone antigo: " + copia_numero);
+
+//   return { resultado1: copia_numero, resultado2: numero };
+  
+// }
+
+
+
+
+function duplicanumerosporcausadonove (Numero){
+  var numero = Numero.replace(/\D/g, '');
+  // Verificar se o número tem 11 dígitos
+  if (numero.length >= 13) {
+    if (numero.substring(0, 2) === "55") {
+      // Remove os dois primeiros dígitos
+      numero = numero.substring(2);
+      console.log("Número válido após remoção dos dígitos iniciais: " + numero);      
+    }
+  }
+     
   
   
  
   var copia_numero = numero
   if (numero.substring(2, 4) === "99") {
     numero = numero.substring(0, 2) + numero.substring(4);
-    numero_sem_nove = numero
+ 
     
   }
   if (numero.substring(2, 4) != "99") {
     numero = numero.substring(0, 2) + "9" + numero.substring(2);
-    numero_com_nove = numero
+    
     
   }
   
