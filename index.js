@@ -96,7 +96,7 @@ function sheets(){
     const sheets = google.sheets({version: 'v4', auth});
     const res = await sheets.spreadsheets.values.get({
         spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
-        range: 'Principal!A:Z',
+        range: 'Principal!A:AC',
     });
     const mensagem_email = await sheets.spreadsheets.values.get({
       spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
@@ -149,6 +149,9 @@ function sheets(){
                 mensagem1 = mensagem1.replace("[primeiro nome]", nome.split(" ")[0])
                 mensagem2 = row[17]
                 mensagem3 = row[18]
+                
+                const numeroAlterado = removerDigitoTelefone(numero);
+                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
@@ -172,7 +175,8 @@ function sheets(){
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
-
+                const numeroAlterado = removerDigitoTelefone(numero);
+                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                 valores.push([[resultado1],[mensagem4]])
                 valores.push([[resultado2],[mensagem4]])
 
@@ -188,7 +192,8 @@ function sheets(){
                 mensagem5 = mensagem5.replace("[primeiro nome]", nome.split(" ")[0])
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                const numeroAlterado = removerDigitoTelefone(numero);
+                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                 valores.push([[resultado1],[mensagem5]])
                 valores.push([[resultado2],[mensagem5]])
 
@@ -214,7 +219,8 @@ function sheets(){
                     adicionar_texto(coluna, index + 1, texto)
 
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                    const numeroAlterado = removerDigitoTelefone(numero);
+                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                     valores.push([[resultado1],[mensagem6]])
                     valores.push([[resultado2],[mensagem6]])
 
@@ -273,7 +279,8 @@ function sheets(){
                     adicionar_texto(coluna, index + 1, texto)
 
                     adicionar_texto('A', index + 1, 'Duas tentativas sem resposta')
-
+                    const numeroAlterado = removerDigitoTelefone(numero);
+                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
                     valores.push([[resultado1],[mensagem7]])
@@ -291,6 +298,31 @@ function sheets(){
                 adicionar_data('B', index + 1)
                 adicionar_texto("A", index + 1, "Responder formulário adesão")
               }
+              if (row[2] == "Realizada" && row[0] == 'Responder formulário adesão') {
+                let data_planilha = row[1]
+                let currentDate = new Date();
+                let dataArray = data_planilha.split("/");
+                let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
+                let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
+                if (diferenca > 7) {
+                    numero = row[9]
+                    nome = row[7]
+                    mensagem_para_termo_adesao = row[28]
+                    console.log(mensagem_para_termo_adesao)
+                    mensagem_para_termo_adesao = mensagem_para_termo_adesao.replace("[Primeiro nome]", nome.split(" ")[0])
+                   
+                    let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+                    const numeroAlterado = removerDigitoTelefone(numero);
+                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                    valores.push([[resultado1],[mensagem_para_termo_adesao]])
+                    valores.push([[resultado2],[mensagem_para_termo_adesao]])
+  
+                    adicionar_data_termo_adesao("B", index + 1, '¹')
+                }
+
+
+
+              }
 
               if (row[2] == "Aguardando agendamento" && row[3] != '') { 
                 let data_planilha = row[3]
@@ -307,7 +339,8 @@ function sheets(){
 
 
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                    const numeroAlterado = removerDigitoTelefone(numero);
+                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                     valores.push([[resultado1],[mensagem9]])
                     valores.push([[resultado2],[mensagem9]])
 
@@ -327,7 +360,8 @@ function sheets(){
                     mensagem9 = mensagem9.replace("[Primeiro nome]", nome.split(" ")[0])
                     mensagem9 = mensagem9.replace("[primeiro nome]", nome.split(" ")[0])
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                    const numeroAlterado = removerDigitoTelefone(numero);
+                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                     valores.push([[resultado1],[mensagem9]])
                     valores.push([[resultado2],[mensagem9]])
 
@@ -350,7 +384,8 @@ function sheets(){
 
 
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                    const numeroAlterado = removerDigitoTelefone(numero);
+                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                     valores.push([[resultado1],[mensagem7]])
                     valores.push([[resultado2],[mensagem7]])
 
@@ -366,7 +401,8 @@ function sheets(){
                 mensagem10 = mensagem10.replace("[primeiro nome]", nome.split(" ")[0])
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                const numeroAlterado = removerDigitoTelefone(numero);
+                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                 valores.push([[resultado1],[mensagem10]])
                 valores.push([[resultado2],[mensagem10]])
 
@@ -381,7 +417,8 @@ function sheets(){
                 mensagem11 = mensagem11.replace("[primeiro nome]", nome.split(" ")[0])
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                const numeroAlterado = removerDigitoTelefone(numero);
+                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                 valores.push([[resultado1],[mensagem11]])
                 valores.push([[resultado2],[mensagem11]])
 
@@ -397,7 +434,8 @@ function sheets(){
 
 
               let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+              const numeroAlterado = removerDigitoTelefone(numero);
+              valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
               valores.push([[resultado1],[mensagem_termo_assinar]])
               valores.push([[resultado2],[mensagem_termo_assinar]])
 
@@ -421,13 +459,14 @@ function sheets(){
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
                   let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                  const numeroAlterado = removerDigitoTelefone(numero);
+                  valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                   valores.push([[resultado1],[mensagem_termo_assinar]])
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
                   adicionar_data_termo_adesao("B", index + 1, '¹')
               }
-              if (row[1].charAt() == '¹'){
+              if (row[0] == "Termo adesão enviado" && row[1].charAt() == '¹'){
                 
                 let data_planilha = row[1]
                 nova_data_planilha = data_planilha.substring(1);
@@ -442,7 +481,8 @@ function sheets(){
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[Primeiro nome]", nome.split(" ")[0])
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
                   let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                  const numeroAlterado = removerDigitoTelefone(numero);
+                  valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                   valores.push([[resultado1],[mensagem_termo_assinar]])
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
@@ -450,7 +490,7 @@ function sheets(){
                 }
 
               }
-              if (row[1].charAt() == '²'){
+              if (row[0] == "Termo adesão enviado" && row[1].charAt() == '²'){
                 
                 let data_planilha = row[1]
                 nova_data_planilha = data_planilha.substring(1);
@@ -467,7 +507,8 @@ function sheets(){
 
 
                   let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                  const numeroAlterado = removerDigitoTelefone(numero);
+                  valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                   valores.push([[resultado1],[mensagem_termo_assinar]])
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
@@ -647,13 +688,14 @@ sheets().then((valores) => {
         console.log(formatado)
 
         for (let enviar = 0; enviar < formatado.length; enviar++) {
-
-            messagePromises.push(client.sendMessage(formatado[enviar][0], '')) //para não bugar a ordem de envio
-            messagePromises.push(client.sendMessage(formatado[enviar][0],formatado[enviar][1]))
-            console.log(formatado[enviar][0],formatado[enviar][1])
-            client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
-
-            client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
+          messagePromises.push(client.sendMessage(formatado[enviar][0], ''));
+          messagePromises.push(client.sendMessage(formatado[enviar][0], formatado[enviar][1]));
+          console.log(formatado[enviar][0], formatado[enviar][1]);
+        
+          // Aguardar 10 segundos antes de continuar
+          client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`);
+          client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`);
+          
         }
         
         
@@ -730,6 +772,29 @@ function mandar_email(nome, mensagem, vaga, telefone, email){
   .then(() => console.log('Email Enviado'))
   .catch((err) => console.log('Erro ao enviar o email', err))
 }
+
+function removerDigitoTelefone(numero) {
+  // Remove os caracteres não numéricos do número de telefone
+  const numeroLimpo = numero.replace(/\D/g, '');
+
+  // Verifica se o número tem o formato esperado
+  if (numeroLimpo.length !== 11) {
+    console.log('Número de telefone inválido. Certifique-se de que o número tenha 11 dígitos.');
+    return numero;
+  }
+
+  // Remove o "9" na terceira posição
+  const numeroAlterado = numeroLimpo.slice(0, 2) + numeroLimpo.slice(3);
+
+  // Retorna o número alterado com o formato "(XX) XXXXX-XXXX"
+  return `(${numeroAlterado.slice(0, 2)}) ${numeroAlterado.slice(2, 7)}-${numeroAlterado.slice(7)}`;
+}
+
+
+
+
+
+
 
 
 function mandar_email_inicial(nome, telefone, email){
