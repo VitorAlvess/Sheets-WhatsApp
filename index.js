@@ -176,7 +176,7 @@ function sheets(){
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
 
                 const numeroAlterado = removerDigitoTelefone(numero);
-                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                valores.push([[numeroAlterado],[mensagem4]])
                 valores.push([[resultado1],[mensagem4]])
                 valores.push([[resultado2],[mensagem4]])
 
@@ -193,7 +193,7 @@ function sheets(){
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                 const numeroAlterado = removerDigitoTelefone(numero);
-                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                valores.push([[numeroAlterado],[mensagem5]])
                 valores.push([[resultado1],[mensagem5]])
                 valores.push([[resultado2],[mensagem5]])
 
@@ -220,7 +220,7 @@ function sheets(){
 
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                     const numeroAlterado = removerDigitoTelefone(numero);
-                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                    valores.push([[numeroAlterado], [mensagem6]])
                     valores.push([[resultado1],[mensagem6]])
                     valores.push([[resultado2],[mensagem6]])
 
@@ -280,9 +280,9 @@ function sheets(){
 
                     adicionar_texto('A', index + 1, 'Duas tentativas sem resposta')
                     const numeroAlterado = removerDigitoTelefone(numero);
-                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+                    
+                    valores.push([[numeroAlterado], [mensagem7]])
                     valores.push([[resultado1],[mensagem7]])
                     valores.push([[resultado2],[mensagem7]])
 
@@ -313,7 +313,7 @@ function sheets(){
                    
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                     const numeroAlterado = removerDigitoTelefone(numero);
-                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                    valores.push([[numeroAlterado], [mensagem_para_termo_adesao]])
                     valores.push([[resultado1],[mensagem_para_termo_adesao]])
                     valores.push([[resultado2],[mensagem_para_termo_adesao]])
   
@@ -340,7 +340,7 @@ function sheets(){
 
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                     const numeroAlterado = removerDigitoTelefone(numero);
-                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                    valores.push([[numeroAlterado], [mensagem9]])
                     valores.push([[resultado1],[mensagem9]])
                     valores.push([[resultado2],[mensagem9]])
 
@@ -361,7 +361,7 @@ function sheets(){
                     mensagem9 = mensagem9.replace("[primeiro nome]", nome.split(" ")[0])
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                     const numeroAlterado = removerDigitoTelefone(numero);
-                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                    valores.push([[numeroAlterado], [mensagem9]])
                     valores.push([[resultado1],[mensagem9]])
                     valores.push([[resultado2],[mensagem9]])
 
@@ -385,7 +385,7 @@ function sheets(){
 
                     let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                     const numeroAlterado = removerDigitoTelefone(numero);
-                    valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                    valores.push([[numeroAlterado], [mensagem7]])
                     valores.push([[resultado1],[mensagem7]])
                     valores.push([[resultado2],[mensagem7]])
 
@@ -402,7 +402,7 @@ function sheets(){
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                 const numeroAlterado = removerDigitoTelefone(numero);
-                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                valores.push([[numeroAlterado], [mensagem10]])
                 valores.push([[resultado1],[mensagem10]])
                 valores.push([[resultado2],[mensagem10]])
 
@@ -418,7 +418,7 @@ function sheets(){
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                 const numeroAlterado = removerDigitoTelefone(numero);
-                valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                valores.push([[numeroAlterado], [mensagem11]])
                 valores.push([[resultado1],[mensagem11]])
                 valores.push([[resultado2],[mensagem11]])
 
@@ -435,7 +435,7 @@ function sheets(){
 
               let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
               const numeroAlterado = removerDigitoTelefone(numero);
-              valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+              valores.push([[numeroAlterado], [mensagem_termo_assinar]])
               valores.push([[resultado1],[mensagem_termo_assinar]])
               valores.push([[resultado2],[mensagem_termo_assinar]])
 
@@ -460,7 +460,7 @@ function sheets(){
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
                   let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                   const numeroAlterado = removerDigitoTelefone(numero);
-                  valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                  valores.push([[numeroAlterado], [mensagem_termo_assinar]])
                   valores.push([[resultado1],[mensagem_termo_assinar]])
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
@@ -482,7 +482,7 @@ function sheets(){
                   mensagem_termo_assinar = mensagem_termo_assinar.replace("[primeiro nome]", nome.split(" ")[0])
                   let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                   const numeroAlterado = removerDigitoTelefone(numero);
-                  valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                  valores.push([[numeroAlterado], [mensagem_termo_assinar]])
                   valores.push([[resultado1],[mensagem_termo_assinar]])
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
@@ -508,7 +508,7 @@ function sheets(){
 
                   let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
                   const numeroAlterado = removerDigitoTelefone(numero);
-                  valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
+                  valores.push([[numeroAlterado], [mensagem_termo_assinar]])
                   valores.push([[resultado1],[mensagem_termo_assinar]])
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
