@@ -378,11 +378,18 @@ function sheets(){
         //       // adicionar_texto("A", index + 1, "Duas faltas no agendamento")    
         //   }
         // }
+        if(row[1] == 'Termo Impossível De Ser Criado Pelo P1P4'){
+          nome = row[3]
+          mensagem_impossivel = `'Olá o P1P4 🤖🪁 pede ajuda, não consigo criar o termo do humano ${nome}. Ele possui mais de *7 atividades*! `
+          valores.push([['11985848901'], [mensagem_impossivel]])
+          adicionar_texto("B", index + 1, "Mensagem Enviada Que o P1P4 não consegue Criar o Termo")
+        }
 
 
-        if(row[0] == 'Termo adesão enviado'){
+        if(row[1] == 'Termo adesão enviado'){
             nome = row[3]
             numero = row[21]
+            email = row[19]
             
             // function formatarTelefone(numero) {
             //   const numeros = numero.replace(/\D/g, '');
@@ -411,17 +418,26 @@ function sheets(){
             // numero_formatado = formatarTelefone(numero)
 
             
-            mensagem1 = 'Oi, [primeiro nome], tudo certo? Acabamos de atualizar o seu termo de voluntariado no PiPA. E precisamos que você confira os dados se estão corretos e, se estiver tudo certinho, assine digitalmente o termo.'
-            mensagem1 = mensagem1.replace("[primeiro nome]", nome.split(" ")[0])
+            mensagem1 = `Oi, [nome], tudo certo?
+
+Quem tá falando aqui é o P1P4 - o robozinho do PiPA 🪁🤖
+            
+Acabamos de atualizar o seu termo de voluntariado e o enviamos para o seu e-mail cadastrado: [e-mail]. 
+            
+Agora, precisamos que você confira se os dados estão corretos e, se estiver tudo certinho, assine o termo digitalmente.`
+            mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
+            mensagem1 = mensagem1.replace("[e-mail]", email.split(" ")[0])
+
             mensagem2 = `Se tiver alguma inconsistência ou alguma informação que precise ser atualizada, é só responder ao formulário a seguir e a gente corrige e envia outro https://curt.link/atualiza-cadastro-pipa
 Um abraço 😊`
 
             
             let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
+            const numeroAlterado = removerDigitoTelefone(numero);
            
             
             valores.push([[resultado1], [mensagem1], [mensagem2]])
+            valores.push([[numeroAlterado], [mensagem1], [mensagem2]])
             valores.push([[resultado2], [mensagem1], [mensagem2]])
 
             
@@ -429,12 +445,12 @@ Um abraço 😊`
             // mensagem2 = row[17]
             // mensagem3 = row[18]
             
-            adicionar_texto("A", index + 1, "Mensagem para assinar enviada")
-            adicionar_data("B",index + 1) 
+            adicionar_texto("B", index + 1, "Mensagem para assinar enviada")
+            adicionar_data("C",index + 1) 
 
         }
         
-        if(row[0] == 'Mensagem para assinar enviada'){
+        if(row[1] == 'Mensagem para assinar enviada'){
             let data_planilha = row[1]
             let currentDate = new Date();
             let dataArray = data_planilha.split("/");
@@ -455,17 +471,18 @@ Um abraço 😊🪁`
                 // mensagem3 = row[18]
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+                const numeroAlterado = removerDigitoTelefone(numero);
 
 
                 valores.push([[resultado1], [mensagem3]])
+                valores.push([[numeroAlterado], [mensagem3]])
                 valores.push([[resultado2], [mensagem3]])
-
                 adicionar_texto("A", index + 1, "Segunda mensagem para assinar enviada")
                 adicionar_data("B",index + 1) 
                 }
         }
 
-        if(row[0] == 'Segunda mensagem para assinar enviada'){
+        if(row[1] == 'Segunda mensagem para assinar enviada'){
             let data_planilha = row[1]
             let currentDate = new Date();
             let dataArray = data_planilha.split("/");
@@ -486,7 +503,9 @@ Um abraço 😊🪁`
                 // mensagem3 = row[18]
                 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+                const numeroAlterado = removerDigitoTelefone(numero);
                 valores.push([[resultado1], [mensagem3]])
+                valores.push([[numeroAlterado], [mensagem3]])
                 valores.push([[resultado2], [mensagem3]])
 
                 adicionar_texto("A", index + 1, "ADM Contatar")
@@ -601,6 +620,10 @@ sheets().then((valores) => {
     console.log(valores); // aqui você pode fazer o que quiser com a variável ar
     if (valores == '') {
         console.log('Sem dados')
+        valores.push([['11985848901'], [`P1P4 responsável pela parte de envio da planilha "Controle de Recursos Humanos" rodando, porém não existe mensagens para serem enviadas:  ${getCurrentDateTimeBrazilian()} \n`]])
+        valores.push([['11945274604'], [`P1P4 responsável pela parte de envio da planilha "Controle de Recursos Humanos" rodando, porém não existe mensagens para serem enviadas:  ${getCurrentDateTimeBrazilian()} \n`]])
+
+        whats(valores)
     }
     else{
 
@@ -627,7 +650,7 @@ sheets().then((valores) => {
     
     client.on('ready', () => {
         console.log('Client is ready!');
-       
+
         formatado = []
         const messagePromises = [];
 
@@ -655,32 +678,35 @@ sheets().then((valores) => {
         }
         console.log(formatado)
 
-        for (let enviar = 0; enviar < formatado.length; enviar++) {
-
-            messagePromises.push(client.sendMessage(formatado[enviar][0], '')) //para não bugar a ordem de envio
-            messagePromises.push(client.sendMessage(formatado[enviar][0],formatado[enviar][1]))
-            console.log(formatado[enviar][0],formatado[enviar][1])
-            client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
-
-            client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${formatado[enviar][1]} *para o numero:*\n ${formatado[enviar][0]}`) //Mensagem informando quais mensagens foram enviadas
-        }
-        
-        
-        Promise.allSettled(messagePromises)
-        .then(() => {
-          console.log('Todas as mensagens foram enviadas!');
-          // Aguarde 2 minutos antes de encerrar a instância do WhatsApp Web
-          setTimeout(() => {
+        function enviarMensagens(index) {
+          if (index >= formatado.length) {
             client.destroy();
-          }, 120000);
-        })
-        .catch((error) => {
-          console.error('Erro ao enviar mensagem:', error);
-          // Aguarde 2 minutos antes de encerrar a instância do WhatsApp Web
+            console.log('Todas as mensagens foram enviadas.')
+            return; // Sai da função quando todas as mensagens foram enviadas
+          }
+      
+          const enviar = formatado[index];
+          
+          client.sendMessage(enviar[0], '')
+          client.sendMessage(enviar[0], enviar[1])
+          console.log(enviar[0], enviar[1]);
+
+
+  
+
+
+          client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
+          client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
+         
+
           setTimeout(() => {
-            client.destroy();
-          }, 120000);
-        });
+              enviarMensagens(index + 1); // Chama a função para a próxima iteração após o atraso
+          }, 10000); // 2 minutos em milissegundos
+      }
+      
+      enviarMensagens(0); // Inicia o processo de envio de mensagens
+
+
 
 
 
@@ -765,4 +791,46 @@ function duplicanumerosporcausadonove (Numero){
 
   return { resultado1: copia_numero, resultado2: numero };
   
+}
+
+function removerDigitoTelefone(numero) {
+  // Remove os caracteres não numéricos do número de telefone
+  const numeroLimpo = numero.replace(/\D/g, '');
+
+  // Verifica se o número tem o formato esperado
+  if (numeroLimpo.length !== 11) {
+    console.log('Número de telefone inválido. Certifique-se de que o número tenha 11 dígitos.');
+    return numero;
+  }
+
+  // Remove o "9" na terceira posição
+  const numeroAlterado = numeroLimpo.slice(0, 2) + numeroLimpo.slice(3);
+
+  // Retorna o número alterado com o formato "(XX) XXXXX-XXXX"
+  return `(${numeroAlterado.slice(0, 2)}) ${numeroAlterado.slice(2, 7)}-${numeroAlterado.slice(7)}`;
+}
+
+
+function getCurrentDateTimeBrazilian() {
+  const currentDate = new Date();
+
+  const dayOfWeek = [
+      "Domingo", "Segunda-feira", "Terça-feira",
+      "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"
+  ][currentDate.getDay()];
+
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const month = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ][currentDate.getMonth()];
+
+  const year = currentDate.getFullYear();
+
+  const hours = String(currentDate.getHours()).padStart(2, '0');
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+
+  const formattedDateTime = `${dayOfWeek}, ${day} de ${month} de ${year} ${hours}:${minutes}:${seconds}`;
+  return formattedDateTime;
 }
