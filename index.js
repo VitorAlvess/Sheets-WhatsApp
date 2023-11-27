@@ -712,8 +712,8 @@ sheets().then((valores) => {
       
           const enviar = formatado[index]; //Inclui mais uma parada no index 
           
-          client.sendMessage(enviar[1], '')
-          client.sendMessage(enviar[1], enviar[2])
+          client.sendMessage(enviar[0], '')
+          client.sendMessage(enviar[0], enviar[1])
           console.log(enviar[0], enviar[1]); 
 
 
@@ -722,7 +722,7 @@ sheets().then((valores) => {
 
           client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
           client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
-          console.log(enviar[0]) //mexi aqui
+          
          
 
           setTimeout(() => {
