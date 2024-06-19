@@ -1,4 +1,20 @@
 
+array_mensagens = [  [    [ '(11) 99190-9436' ],
+[      'Mensagem caso a pessoa tenha sido aprovada durante a entrevista'    ], ['Mensagens 1'], ['Mensagens 2'], ['Mensagens 3']
+],
+[    [ '(21) 99876-5432' ],
+[      'Mensagem de confirmação de agendamento de entrevista'    ], ['Mensagens 1']
+],
+[    [ '(31) 98765-4321' ],
+[      'Mensagem informando sobre próximas etapas do processo seletivo'    ] , ['Mensagens 1']
+],
+[    [ '(41) 95555-4444' ],
+[      'Mensagem de agradecimento pelo interesse na vaga'    ], ['Mensagens 1'] , ['Mensagens 2']
+],
+[    [ '(51) 99999-8888' ],
+[      'Mensagem informando sobre a necessidade de realizar um teste prático'    ] , ['Mensagens 1']
+]
+]
 const nodemailer = require('nodemailer')
 
 
@@ -115,13 +131,35 @@ function sheets(){
                 mensagem1 = mensagem1.replace("[primeiro nome]", nome.split(" ")[0])
                 mensagem2 = row[17]
                 mensagem3 = row[18]
+
+
+
+                // Trecho de codigo para avisar o responsavel pela vaga
+
                 responsavelPelaVaga = row[14]
+                funcao = row[11]
+                mensagem_responsavel = `Olá [nomeresponsavel], Aqui é o P1P4🤖🪁: Estou passando para informar que enviei a *mensagem inicial* para *[pessoa]* da função *[função]*`
+                mensagem_responsavel = mensagem_responsavel.replace("[nomeresponsavel]", responsavelPelaVaga)
+                mensagem_responsavel = mensagem_responsavel.replace("[pessoa]", nome)
+                mensagem_responsavel = mensagem_responsavel.replace("[função]", funcao)
                 
+                if (responsavelPelaVaga == 'Daniel') {
+                  valores.push([[11985848901], [mensagem_responsavel]]) 
+                }
+                
+                if (responsavelPelaVaga == 'Stella') {
+                  valores.push([[11972870027], [mensagem_responsavel]]) 
+                }
+
+                // Fim do trecho de codigo
+
+
+
+
                 const numeroAlterado = removerDigitoTelefone(numero);
                 // valores.push([[numeroAlterado], [mensagem1], [mensagem2], [mensagem3]])
 
                 let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-
 
 
                 valores.push([[resultado1], [mensagem1], [mensagem2], [mensagem3]])
@@ -132,203 +170,10 @@ function sheets(){
                 adicionar_data(coluna,index + 1)
                 mandar_email_inicial(nome, numero,row[8])
 
+
+
+               
             }
-            if (row[4] == 'Formulário Respondido') {
-              let data_planilha = row[5]
-              let currentDate = new Date();
-              // Obtendo o dia, mês e ano
-            let dia = currentDate.getDate();
-            let mes = currentDate.getMonth() + 1; // Adiciona +1 porque os meses são indexados a partir de zero
-            let ano = currentDate.getFullYear();
-  
-            // Formatando a data
-            if (dia < 10) {
-                dia = '0' + dia; // Adiciona um zero à esquerda se o dia for menor que 10
-            }
-  
-            if (mes < 10) {
-                mes = '0' + mes; // Adiciona um zero à esquerda se o mês for menor que 10
-            }
-  
-            let dataFormatada = dia + '/' + mes + '/' + ano;
-  
-  
-  
-              let dataArray = data_planilha.split("/");
-              let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
-              let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
-              nome = row[7]
-            
-              responsavelPelaVaga = row[14]
-              
-             
-
-
-              coluna = "E"
-              adicionar_texto(coluna, index + 1, 'Em Análise')
-
-
-              
-              // Trecho de codigo para avisar o responsavel pela vaga
-
-              responsavelPelaVaga = row[14]
-              funcao = row[11]
-              mensagem_responsavel = `Olá [nomeresponsavel], Aqui é o P1P4🤖🪁: Estou passando para informar que *[pessoa]* da função *[função]* já respondeu o *formulário*. Agora, você precisa analisar as respostas e informar o próximo passo`
-              mensagem_responsavel = mensagem_responsavel.replace("[nomeresponsavel]", responsavelPelaVaga)
-              mensagem_responsavel = mensagem_responsavel.replace("[pessoa]", nome)
-              mensagem_responsavel = mensagem_responsavel.replace("[função]", funcao)
-              adicionar_data("D",index+1)
-              if (responsavelPelaVaga == 'Daniel') {
-                valores.push([[11985848901], [mensagem_responsavel]]) 
-              }
-              
-              if (responsavelPelaVaga == 'Stella') {
-                valores.push([[11972870027], [mensagem_responsavel]]) 
-              }
-
-              if (responsavelPelaVaga == 'Beatriz') {
-                valores.push([[11996773018], [mensagem_responsavel]]) 
-              }
-
-              // Fim do trecho de codigo
-             
-          }
-
-          if (row[4] == 'Em Análise') {
-          let data_planilha = row[5]
-          let currentDate = new Date();
-            // Obtendo o dia, mês e ano
-          let dia = currentDate.getDate();
-          let mes = currentDate.getMonth() + 1; // Adiciona +1 porque os meses são indexados a partir de zero
-          let ano = currentDate.getFullYear();
-
-          // Formatando a data
-          if (dia < 10) {
-              dia = '0' + dia; // Adiciona um zero à esquerda se o dia for menor que 10
-          }
-
-          if (mes < 10) {
-              mes = '0' + mes; // Adiciona um zero à esquerda se o mês for menor que 10
-          }
-
-          let dataFormatada = dia + '/' + mes + '/' + ano;
-
-
-
-            let dataArray = data_planilha.split("/");
-            let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
-            let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
-            if (diferenca > 15) {
-            //   console.log("A data fornecida está mais de 7 dias no passado");
-                nome = row[7]
-                numero = row[9]
-
-                coluna = "F"
-                adicionar_data(coluna,index+1)
-
-
-                //codigo da parte de mandar mensagem para o responsavel
-                responsavelPelaVaga = row[14]
-                funcao = row[11]
-                mensagem_responsavel = `Oi, [nomeresponsavel]. Tudo certinho? Aqui é o P1P4🤖🪁 ... Tô passando pra lembrar que a [pessoa] da função [função], está com o status "Em Análise" já faz um tempinho... você poderia verificar se há algo a se fazer?`
-
-                mensagem_responsavel = mensagem_responsavel.replace("[nomeresponsavel]", responsavelPelaVaga)
-                mensagem_responsavel = mensagem_responsavel.replace("[pessoa]", nome)
-                mensagem_responsavel = mensagem_responsavel.replace("[função]", funcao)
-                
-                if (responsavelPelaVaga == 'Daniel') {
-                  valores.push([[11985848901], [mensagem_responsavel]]) 
-                }
-                
-                if (responsavelPelaVaga == 'Stella') {
-                  valores.push([[11972870027], [mensagem_responsavel]]) 
-                }
-  
-                if (responsavelPelaVaga == 'Beatriz') {
-                  valores.push([[11996773018], [mensagem_responsavel]]) 
-                }
-
-
-            }
-          }
-
-
-
-
-
-          
-          if (row[2] == 'Em Análise') {
-          let data_planilha = row[3]
-          let currentDate = new Date();
-            // Obtendo o dia, mês e ano
-          let dia = currentDate.getDate();
-          let mes = currentDate.getMonth() + 1; // Adiciona +1 porque os meses são indexados a partir de zero
-          let ano = currentDate.getFullYear();
-
-          // Formatando a data
-          if (dia < 10) {
-              dia = '0' + dia; // Adiciona um zero à esquerda se o dia for menor que 10
-          }
-
-          if (mes < 10) {
-              mes = '0' + mes; // Adiciona um zero à esquerda se o mês for menor que 10
-          }
-
-          let dataFormatada = dia + '/' + mes + '/' + ano;
-
-
-
-            let dataArray = data_planilha.split("/");
-            let novaData = new Date(dataArray[2], dataArray[1] - 1, dataArray[0]);
-            let diferenca = Math.floor((currentDate.getTime() - novaData.getTime()) / (1000 * 3600 * 24));
-            if (diferenca > 15) {
-            //   console.log("A data fornecida está mais de 7 dias no passado");
-                nome = row[7]
-                numero = row[9]
-
-                coluna = "D"
-                adicionar_data(coluna,index+1)
-
-
-                //codigo da parte de mandar mensagem para o responsavel
-                responsavelPelaVaga = row[14]
-                funcao = row[11]
-                mensagem_responsavel = `Oi, [nomeresponsavel]. Tudo certinho? Aqui é o P1P4🤖🪁 ... Tô passando pra lembrar que a [pessoa] da função [função], está com o status "Em Análise" já faz um tempinho... você poderia verificar se há algo a se fazer?`
-
-                mensagem_responsavel = mensagem_responsavel.replace("[nomeresponsavel]", responsavelPelaVaga)
-                mensagem_responsavel = mensagem_responsavel.replace("[pessoa]", nome)
-                mensagem_responsavel = mensagem_responsavel.replace("[função]", funcao)
-                
-                if (responsavelPelaVaga == 'Daniel') {
-                  valores.push([[11985848901], [mensagem_responsavel]]) 
-                }
-                
-                if (responsavelPelaVaga == 'Stella') {
-                  valores.push([[11972870027], [mensagem_responsavel]]) 
-                }
-  
-                if (responsavelPelaVaga == 'Beatriz') {
-                  valores.push([[11996773018], [mensagem_responsavel]]) 
-                }
-
-
-            }
-          }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             if (row[4] == "Marcar entrevista" && row[3] == '') {
                 nome = row[7]
@@ -368,10 +213,6 @@ function sheets(){
                 texto = 'Reprovado(a) e informado(a)'
                 adicionar_texto(coluna, index + 1, texto)
               }
-
-
-
-
 
               if (row[5] != '' && row[4] == '') {
                 let data_planilha = row[5]
@@ -421,7 +262,7 @@ function sheets(){
                     // console.log(textos[index])
                    
                     console.log(row[8])
-                    // mandar_email(nome,textos[index],row[11],numero,row[8])
+                    mandar_email(nome,textos[index],row[11],numero,row[8])
               
                    
                 } 
@@ -599,7 +440,7 @@ function sheets(){
                   valores.push([[resultado2],[mensagem_termo_assinar]])
 
                   adicionar_texto("A", index + 1, "Duas tentativas sem resposta")   
-                  mandar_email_duas_tentaivas_sem_resposta(nome,row[8])
+                  mandar_email_duas_tentaivas_sem_resposta(nome,row[8])  
               }
             }
 
@@ -851,8 +692,7 @@ sheets().then((valores) => {
     const qrcode = require('qrcode-terminal');
     const { Client, LocalAuth } = require('whatsapp-web.js');
     const client = new Client({
-        authStrategy: new LocalAuth(),
-        webVersion:'2.2412.50',
+        authStrategy: new LocalAuth()
     });
 
 
@@ -1048,7 +888,6 @@ function mandar_email_inicial(nome, telefone, email){
   mensagem = mensagem.toString();
   // mensagem = mensagem.replace("[Primeiro nome]", nome.split(" ")[0])
   mensagem = mensagem.replace("[Nome da pessoa]", nome.split(" ")[0])
-  mensagem = mensagem.replace("[número celular]", telefone)
 
   titulo = "Voluntariado - Vai voar no PiPA com a gente?"
     // send mail with defined transport object

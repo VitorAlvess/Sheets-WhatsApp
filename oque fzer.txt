@@ -1,9 +1,3 @@
-
-
-
-
--seria 2 horarios no dia as 09:00 e as 15:00
--Deixar rodando 3 horas.
--vai dar pra mandar para quantas pessaos? vou fazer esse calculo para mandar apenas 1 mensagem 
--controlar a capacidade de quantas mensagem consegue enviar, para não tickar desnecessariamente.
-- Tentar mandar pra 90 pessoas as  mensagens a cada 3 horas
+Enviar mensagem confirmando o agendamento
+verificar pra quem é a mensagem, está na coluna R
+Deixar a situação como "Lembrete anotar agendamento e link enviado"
