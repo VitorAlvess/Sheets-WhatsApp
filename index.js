@@ -130,7 +130,7 @@ function sheets(){
 
                 coluna = "F"
                 adicionar_data(coluna,index + 1)
-                mandar_email_inicial(nome, numero,row[8])
+                mandar_email_inicial(nome, numero,row[8], row[50])
 
             }
             if (row[4] == 'Formulário Respondido') {
@@ -190,6 +190,11 @@ function sheets(){
                 valores.push([[11996773018], [mensagem_responsavel]]) 
               }
 
+              if (responsavelPelaVaga == 'Claudio') {
+                valores.push([[11981691919], [mensagem_responsavel]]) 
+              }
+
+
               // Fim do trecho de codigo
              
           }
@@ -246,6 +251,10 @@ function sheets(){
   
                 if (responsavelPelaVaga == 'Beatriz') {
                   valores.push([[11996773018], [mensagem_responsavel]]) 
+                }
+
+                 if (responsavelPelaVaga == 'Claudio') {
+                  valores.push([[11981691919], [mensagem_responsavel]]) 
                 }
 
 
@@ -309,6 +318,10 @@ function sheets(){
   
                 if (responsavelPelaVaga == 'Beatriz') {
                   valores.push([[11996773018], [mensagem_responsavel]]) 
+                }
+
+                 if (responsavelPelaVaga == 'Claudio') {
+                  valores.push([[11981691919], [mensagem_responsavel]]) 
                 }
 
 
@@ -1027,17 +1040,11 @@ function removerDigitoTelefone(numero) {
 
 
 
-function mandar_email_inicial(nome, telefone, email){
-  mensagem = `Oi, [Nome da pessoa] aqui é da Associação PiPA🪁 
+function mandar_email_inicial(nome, telefone, email, mensagem){
+  
 
-  Que alegria saber de sua candidatura ao voluntariado!
-  
-  Caso não tenha recebido a mensagem pelo WhatsApp, por favor informe-nos. Nosso meio de comunicação que tem dado mais certo pra nós é o WhatsApp. E por isso acabamos de enviar uma mensagem para você por lá. 
-  No cadastro do Atados aparece que seu telefone é [número celular], se este número não for WhatsApp você poderia nos avisar?
-  
-  Um abraço,
-  
-  Equipe PiPA 🪁`
+
+  // colocar a mensagem da coluna p da base dialogos
   const data = require('./email.json');
   let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",

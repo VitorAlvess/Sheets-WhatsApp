@@ -1,0 +1,53 @@
+2024/07/03-15:20:13.996 2b80 Reusing MANIFEST C:\Users\vitor\Documents\Sheets-WhatsApp\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-068527
+2024/07/03-15:20:13.997 2b80 Recovering log #68746
+2024/07/03-15:20:13.998 2b80 Reusing old log C:\Users\vitor\Documents\Sheets-WhatsApp\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/068746.log 
+2024/07/03-15:20:13.998 2b80 Delete type=2 #68528
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68529
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68710
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68711
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68713
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68714
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68716
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68717
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68719
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68720
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68722
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68723
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68724
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68725
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68726
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68727
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68728
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68729
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68730
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68731
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68732
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68733
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68734
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68735
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68736
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68737
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68738
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68739
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68740
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68741
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68742
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68743
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68747
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68779
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68780
+2024/07/03-15:20:13.999 2b80 Delete type=2 #68781
+2024/07/03-15:20:14.012 1b58 Expanding@1 1+1 (2232581+2240366 bytes) to 2+1 (3571934+2240366 bytes)
+2024/07/03-15:20:14.012 1b58 Compacting 2@1 + 1@2 files
+2024/07/03-15:20:14.045 1b58 Level-0 table #68782: started
+2024/07/03-15:20:14.064 1b58 Level-0 table #68782: 554 bytes OK
+2024/07/03-15:20:14.066 1b58 Delete type=0 #68746
+2024/07/03-15:20:14.163 1b58 Generated table #68780@1: 93536 keys, 2242018 bytes
+2024/07/03-15:20:14.397 1b58 Generated table #68783@1: 86868 keys, 2232702 bytes
+2024/07/03-15:20:14.475 1b58 Generated table #68784@1: 52026 keys, 1337410 bytes
+2024/07/03-15:20:14.475 1b58 Compacted 2@1 + 1@2 files => 5812130 bytes
+2024/07/03-15:20:14.475 1b58 compacted to: files[ 1 4 33 165 0 0 0 ]
+2024/07/03-15:20:14.476 1f84 Manual compaction at level-0 from '\x00|\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00}\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/07/03-15:20:14.476 1f84 Manual compaction at level-1 from '\x00|\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00}\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/07/03-15:20:14.476 1f84 Manual compaction at level-2 from '\x00|\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00}\x00\x00\x00' @ 0 : 0; will stop at '\x00~\x04"\x01\x12\x005\x005\x001\x001\x009\x004\x000\x005\x008\x005\x000\x000\x009\x00@\x00c\x00.\x00u\x00s\x00\x01\x13\x002\x001\x004\x007\x008\x007\x001\x005\x003\x007\x002\x007\x005\x009\x009\x00@\x00l\x00i\x00d' @ 79324750 : 1
+2024/07/03-15:20:14.477 1f84 Compacting 2@2 + 2@3 files

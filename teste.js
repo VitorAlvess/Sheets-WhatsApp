@@ -1,24 +1,47 @@
-const ABC = [
-  ['Oi, José. Aqui é da Associação PiPA, gostaria de te trazer uma informação sobre um de nossos projetos'],
-  ['O Educa ViVA ainda está parado porque não temos conseguido verba'],
-  ['Você poderia divulgar essa postagem para seus amigos e familiares? Quem sabe, eles, assim como você, gostariam de nos ajudar nesse lindo projeto'],
-  [''],
-  [''],
-  ['']
-];
+const nodemailer = require('nodemailer')
 
+function mandar_email_duas_tentaivas_sem_resposta(nome, email){
+  mensagem = `Oi, [Nome da pessoa] aqui é da Associação PiPA🪁 
 
-function limpardados(mensagem){
-
-  var resultado = mensagem.filter(item => item[0] !== '');
-  var texto = resultado.map(item => item[0]).join('\n\n');
-  let dataHoraAtual = new Date();
-  let dataAtual = dataHoraAtual.toLocaleDateString();
-  let horaAtual = dataHoraAtual.toLocaleTimeString();
-  let textohoras = `Mensagens enviada às ${horaAtual} do dia ${dataAtual}`
-  let textofinal = `${textohoras} \n\n${texto}` 
+  Como não obtive respostas, estou finalizando sua candidatura. Caso ainda tenha interesse em participar conosco, veja as vagas de voluntariado abertas no momento em: https://atados.com.br/ong/pipa/vagas e se inscreva no processo novamente.
   
-  return textofinal
+  Um abraço,
+  
+  Equipe PiPA 🪁`
+
+
+
+  
+  const data = require('./email.json');
+  let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: 'vitorsantosalves2012@gm', // generated ethereal user
+        pass: 'pmbo zddk iwav erpt', // generated ethereal password
+      },
+  });
+  console.log(mensagem)
+  email = email.toString()
+  mensagem = mensagem.toString();
+  // mensagem = mensagem.replace("[Primeiro nome]", nome.split(" ")[0])
+  mensagem = mensagem.replace("[Nome da pessoa]", nome.split(" ")[0])
+
+  titulo = "Voluntariado - Vai voar no PiPA com a gente?"
+    // send mail with defined transport object
+  // let info = await 
+  transporter.sendMail({
+  from: '"PiPA 🪁" <opipa@opipa.org>', // sender address
+  to: email, // list of receivers
+  subject: titulo, // Subject line
+  text: `${mensagem}`, // plain text body
+  // html: `${mensagem}`, // html body
+  })
+  .then(() => console.log('Email Enviado'))
+  .catch((err) => console.log('Erro ao enviar o email', err))
 }
 
-console.log(limpardados(ABC))
+
+
+mandar_email_duas_tentaivas_sem_resposta("Teste", "vitorsantosalves2012@gmail.com")
