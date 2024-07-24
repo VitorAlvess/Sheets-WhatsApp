@@ -80,7 +80,7 @@ function sheets(){
     const sheets = google.sheets({version: 'v4', auth});
     const res = await sheets.spreadsheets.values.get({
         spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
-        range: 'Principal!A:BA',
+        range: 'Principal!A:BB',
         // ERA ATÉ AC ANTES
     });
     const mensagem_email = await sheets.spreadsheets.values.get({
@@ -133,6 +133,9 @@ function sheets(){
                 mandar_email_inicial(nome, numero,row[8], row[51])
 
             }
+
+
+
             if (row[4] == 'Formulário Respondido') {
               let data_planilha = row[5]
               let currentDate = new Date();
@@ -355,7 +358,23 @@ function sheets(){
 
 
 
+          if (row[2] == "Agendada") {
+            nome = row[7]
+            numero = row[9]
+            mensagem_agendada = row[53]
+            mensagem_agendada = mensagem_agendada.replace("[primeiro nome]", nome.split(" ")[0])
 
+            let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
+
+            const numeroAlterado = removerDigitoTelefone(numero);
+            valores.push([[numeroAlterado],[mensagem_agendada]])
+            valores.push([[resultado1],[mensagem_agendada]])
+            valores.push([[resultado2],[mensagem_agendada]])
+
+           
+        
+            adicionar_texto("C", index + 1, "Lembrete anotar agendamento e link enviada")
+        }
             if (row[4] == "Marcar entrevista" && row[3] == '') {
                 nome = row[7]
                 numero = row[9]
