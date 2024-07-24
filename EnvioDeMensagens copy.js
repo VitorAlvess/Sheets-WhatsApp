@@ -98,7 +98,7 @@ function sheets(){
             if (row[2] == 'Todos') {
               
 
-                
+
                 rows_contatos.forEach((row_contato, index_contato) => {
                     if (row_contato[2] != undefined && row_contato[2] != 'Nome do Responsável' && row_contato[0] != "VERDADEIRO") {
                         nome = row_contato[2]
@@ -108,10 +108,10 @@ function sheets(){
                         mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
                        
                         const numeroAlterado = removerDigitoTelefone(numero);
-                        valores.push([[numeroAlterado], [mensagem1]])
+                        valores.push([[numeroAlterado], [mensagem1], [mensagempadrao]])
                         let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-                        valores.push([[resultado1], [mensagem1]])
-                        valores.push([[resultado2], [mensagem1]])
+                        valores.push([[resultado1], [mensagem1], [mensagempadrao]])
+                        valores.push([[resultado2], [mensagem1], [mensagempadrao]])
                         adicionar_texto_contatos("A", index_contato + 1, 'TRUE')
                         adicionar_data_contatos("B", index_contato+1)
                     }
