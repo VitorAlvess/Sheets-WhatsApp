@@ -498,8 +498,8 @@ sheets().then((valores) => {
     console.log(valores); // aqui você pode fazer o que quiser com a variável ar
     if (valores == '') {
         console.log('Sem dados')
-        valores.push([['11985848901'], [`Teste Envio de Mensagens PiPA da planilha https://docs.google.com/spreadsheets/d/1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0/edit?gid=0#gid=0 ${getCurrentDateTimeBrazilian()} \n`]])
-        valores.push([['11945274604'], [`Teste Envio de Mensagens PiPA da planilha https://docs.google.com/spreadsheets/d/1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0/edit?gid=0#gid=0 ${getCurrentDateTimeBrazilian()} \n`]])
+        valores.push([['11985848901'], [`P1P4 🤖🪁 responsável pela *Envio de Mensagem Massivo* funcionando! ${getCurrentDateTimeBrazilian()} \n`]])
+        valores.push([['11945274604'], [`P1P4 🤖🪁 responsável pela *Envio de Mensagem Massivo* funcionando! ${getCurrentDateTimeBrazilian()} \n`]])
         whats(valores)
         
     }

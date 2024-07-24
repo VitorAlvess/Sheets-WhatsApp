@@ -130,7 +130,7 @@ function sheets(){
 
                 coluna = "F"
                 adicionar_data(coluna,index + 1)
-                mandar_email_inicial(nome, numero,row[8], row[50])
+                mandar_email_inicial(nome, numero,row[8], row[51])
 
             }
             if (row[4] == 'Formulário Respondido') {
@@ -194,6 +194,11 @@ function sheets(){
                 valores.push([[11981691919], [mensagem_responsavel]]) 
               }
 
+              if (responsavelPelaVaga == 'Elaine') {
+                valores.push([[11984057064], [mensagem_responsavel]]) 
+              }
+
+
 
               // Fim do trecho de codigo
              
@@ -255,6 +260,10 @@ function sheets(){
 
                  if (responsavelPelaVaga == 'Claudio') {
                   valores.push([[11981691919], [mensagem_responsavel]]) 
+                }
+
+                if (responsavelPelaVaga == 'Elaine') {
+                  valores.push([[11984057064], [mensagem_responsavel]]) 
                 }
 
 
@@ -322,6 +331,10 @@ function sheets(){
 
                  if (responsavelPelaVaga == 'Claudio') {
                   valores.push([[11981691919], [mensagem_responsavel]]) 
+                }
+
+                if (responsavelPelaVaga == 'Elaine') {
+                  valores.push([[11984057064], [mensagem_responsavel]]) 
                 }
 
 
@@ -1058,9 +1071,11 @@ function mandar_email_inicial(nome, telefone, email, mensagem){
   console.log(mensagem)
   email = email.toString()
   mensagem = mensagem.toString();
-  // mensagem = mensagem.replace("[Primeiro nome]", nome.split(" ")[0])
+  mensagem = mensagem.replace("[primeiro nome]", nome.split(" ")[0])
   mensagem = mensagem.replace("[Nome da pessoa]", nome.split(" ")[0])
   mensagem = mensagem.replace("[número celular]", telefone)
+  mensagem = mensagem.replace("[número telefone informado]", telefone)
+
 
   titulo = "Voluntariado - Vai voar no PiPA com a gente?"
     // send mail with defined transport object
