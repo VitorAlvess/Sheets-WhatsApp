@@ -75,12 +75,12 @@ function sheets(){
     async function listMajors(auth) {
     const sheets = google.sheets({version: 'v4', auth});
     const res = await sheets.spreadsheets.values.get({
-        spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+        spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
         range: 'Mensagem!A:F',
         // ERA ATÉ AC ANTES
     });
     const contatos = await sheets.spreadsheets.values.get({
-      spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+      spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
       range: 'Contatos!A:AJ',
     });
 
@@ -98,7 +98,7 @@ function sheets(){
             if (row[2] == 'Todos') {
               
 
-
+                
                 rows_contatos.forEach((row_contato, index_contato) => {
                     if (row_contato[2] != undefined && row_contato[2] != 'Nome do Responsável' && row_contato[0] != "VERDADEIRO") {
                         nome = row_contato[2]
@@ -108,10 +108,10 @@ function sheets(){
                         mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
                        
                         const numeroAlterado = removerDigitoTelefone(numero);
-                        valores.push([[numeroAlterado], [mensagem1], [mensagempadrao]])
+                        valores.push([[numeroAlterado], [mensagem1]])
                         let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-                        valores.push([[resultado1], [mensagem1], [mensagempadrao]])
-                        valores.push([[resultado2], [mensagem1], [mensagempadrao]])
+                        valores.push([[resultado1], [mensagem1]])
+                        valores.push([[resultado2], [mensagem1]])
                         adicionar_texto_contatos("A", index_contato + 1, 'TRUE')
                         adicionar_data_contatos("B", index_contato+1)
                     }
@@ -270,9 +270,10 @@ function sheets(){
 
             if (row[2] == 'teste') {
               texto_verificar = 'teste'
-            
+          
 
 
+              
               rows_contatos.forEach((row_contato, index_contato) => {
                   if (row_contato[2] != undefined && row_contato[2] != 'Nome do Responsável' && row_contato[0] != "VERDADEIRO") {
                       if (row_contato[5] == texto_verificar || row_contato[6] == texto_verificar || row_contato[7] == texto_verificar || row_contato[8] == texto_verificar || row_contato[9] == texto_verificar) {
@@ -336,7 +337,7 @@ function sheets(){
     
         try {
           const result = sheets.spreadsheets.values.update({
-            spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+            spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
             range: `Mensagem!${coluna+linha}`,
             valueInputOption: 'RAW',
             resource,
@@ -370,7 +371,7 @@ function sheets(){
         
           //   try {
           //     const result = sheets.spreadsheets.values.update({
-          //       spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+          //       spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
           //       range: `Contatos!${coluna+linha}`,
           //       valueInputOption: 'RAW',
           //       resource,
@@ -406,7 +407,7 @@ function sheets(){
       
           try {
             const result = sheets.spreadsheets.values.update({
-              spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+              spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
               range: `Mensagem!${coluna+linha}`,
               valueInputOption: 'RAW',
               resource,
@@ -433,7 +434,7 @@ function sheets(){
     
         try {
           const result = sheets.spreadsheets.values.update({
-            spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+            spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
             range: `Mensagem!${coluna+linha}`,
             valueInputOption: 'USER_ENTERED',
             resource,
@@ -462,7 +463,7 @@ function sheets(){
         
           //   try {
           //     const result = sheets.spreadsheets.values.update({
-          //       spreadsheetId: '1ht34hwjt90fm5gCxTUdp5jR1H-wtLqp8xjSG5rIjMT0',
+          //       spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
           //       range: `Contatos!${coluna+linha}`,
           //       valueInputOption: 'USER_ENTERED',
           //       resource,
@@ -696,7 +697,8 @@ function getCurrentDateTimeBrazilian() {
 
     try {
       const result = sheets.spreadsheets.values.update({
-        spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+        spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
+        
         range: `Principal!${coluna+linha}`,
         valueInputOption: 'RAW',
         resource,
@@ -727,7 +729,7 @@ function getCurrentDateTimeBrazilian() {
 
     try {
       const result = sheets.spreadsheets.values.update({
-        spreadsheetId: '1Jnl_PqlDJRxemLOlDP2aFawoDNo9EHG_Ma43ZvcfOyY',
+        spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
         range: `Principal!${coluna+linha}`,
         valueInputOption: 'RAW',
         resource,
