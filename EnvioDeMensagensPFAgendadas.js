@@ -76,7 +76,7 @@ function sheets(){
     const sheets = google.sheets({version: 'v4', auth});
     const res = await sheets.spreadsheets.values.get({
         spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
-        range: 'Mensagem!A:F',
+        range: 'Mensagens Agendadas!A:F',
         // ERA ATÉ AC ANTES
     });
     const contatos = await sheets.spreadsheets.values.get({
@@ -91,7 +91,9 @@ function sheets(){
         return;
     }
     rows.forEach((row, index) => {
-        if (row[1] == 'TRUE' ) {
+
+        
+        if (row[3] == obterDataAtual() && row[4] != 'Sim') {
             
 
           
@@ -123,7 +125,7 @@ function sheets(){
             
 
             if (row[2] != 'Todos') {
-  
+              
               sheets_enviar_mensagem(row[2], row)
 
               
@@ -132,11 +134,14 @@ function sheets(){
 
           }
 
-            adicionar_texto("D", index +1, "Sim")
-            adicionar_data("E", index +1)
-            adicionar_texto("F", index +1, row[0])
-            adicionar_texto("B", index +1, "FALSE")
-            adicionar_texto("G", index +1, row[2])
+            adicionar_texto("E", index +1, "Sim")
+            adicionar_data("F", index +1)
+            adicionar_texto("G", index +1, row[1])
+            adicionar_texto("H", index +1, row[2])
+
+
+            // adicionar_texto("B", index +1, "FALSE")
+            // adicionar_texto("G", index +1, row[2])
 
             
 
@@ -161,7 +166,7 @@ function sheets(){
               if (row_contato[5] == texto_verificar || row_contato[6] == texto_verificar || row_contato[7] == texto_verificar || row_contato[8] == texto_verificar || row_contato[9] == texto_verificar) {
                   nome = row_contato[2]
                   numero = row_contato[3]
-                  mensagem1 = row[0]
+                  mensagem1 = row[1]
                   mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
                  
                   const numeroAlterado = removerDigitoTelefone(numero);
@@ -194,7 +199,7 @@ function sheets(){
         try {
           const result = sheets.spreadsheets.values.update({
             spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
-            range: `Mensagem!${coluna+linha}`,
+            range: `Mensagens Agendadas!${coluna+linha}`,
             valueInputOption: 'RAW',
             resource,
           });
@@ -228,7 +233,7 @@ function sheets(){
         try {
           const result = sheets.spreadsheets.values.update({
             spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
-            range: `Mensagem!${coluna+linha}`,
+            range: `Mensagens Agendadas!${coluna+linha}`,
             valueInputOption: 'USER_ENTERED',
             resource,
           });
@@ -264,8 +269,8 @@ sheets().then((valores) => {
     console.log(valores); // aqui você pode fazer o que quiser com a variável ar
     if (valores == '') {
         console.log('Sem dados')
-        valores.push([['11985848901'], [`P1P4 🤖🪁 responsável pela *Envio de Mensagem Massivo* funcionando! ${getCurrentDateTimeBrazilian()} \n`]])
-        valores.push([['11945274604'], [`P1P4 🤖🪁 responsável pela *Envio de Mensagem Massivo* funcionando! ${getCurrentDateTimeBrazilian()} \n`]])
+        valores.push([['11985848901'], [`P1P4 🤖🪁 responsável pela *Envio de Mensagem Massivo Agendadas* funcionando! ${getCurrentDateTimeBrazilian()} \n`]])
+        valores.push([['11945274604'], [`P1P4 🤖🪁 responsável pela *Envio de Mensagem Massivo Agendadas* funcionando! ${getCurrentDateTimeBrazilian()} \n`]])
         whats(valores)
         
     }
@@ -464,7 +469,7 @@ function getCurrentDateTimeBrazilian() {
       const result = sheets.spreadsheets.values.update({
         spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
         
-        range: `Principal!${coluna+linha}`,
+        range: `Mensagens Agendadas!${coluna+linha}`,
         valueInputOption: 'RAW',
         resource,
       });
@@ -495,7 +500,7 @@ function getCurrentDateTimeBrazilian() {
     try {
       const result = sheets.spreadsheets.values.update({
         spreadsheetId: '1nfv2ALUmqW9I9pijsHMZ1rjzakcWGY6ZH5_lreYDo_4',
-        range: `Principal!${coluna+linha}`,
+        range: `Mensagens Agendadas!${coluna+linha}`,
         valueInputOption: 'RAW',
         resource,
       });
@@ -506,3 +511,12 @@ function getCurrentDateTimeBrazilian() {
       throw err;
   }
     }
+
+
+function obterDataAtual() {
+  const dataAtual = new Date();
+  const dia = String(dataAtual.getDate()).padStart(2, '0');
+  const mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Mês começa do zero
+  const ano = dataAtual.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+}

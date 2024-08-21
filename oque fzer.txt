@@ -1,3 +1,0 @@
-Enviar mensagem confirmando o agendamento
-verificar pra quem é a mensagem, está na coluna R
-Deixar a situação como "Lembrete anotar agendamento e link enviado"
