@@ -107,11 +107,7 @@ function sheets(){
                         mensagem1 = row[0]
                         mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
                        
-                        const numeroAlterado = removerDigitoTelefone(numero);
-                        valores.push([[numeroAlterado], [mensagem1]])
-                        let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-                        valores.push([[resultado1], [mensagem1]])
-                        valores.push([[resultado2], [mensagem1]])
+                        valores.push([[numero], [mensagem1]])
                        
                     }
 
@@ -169,11 +165,9 @@ function sheets(){
                   mensagem1 = row[1]
                   mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
                  
-                  const numeroAlterado = removerDigitoTelefone(numero);
-                  valores.push([[numeroAlterado], [mensagem1]])
-                  let { resultado1, resultado2} = duplicanumerosporcausadonove(numero)
-                  valores.push([[resultado1], [mensagem1]])
-                  valores.push([[resultado2], [mensagem1]])
+               
+                  valores.push([[numero], [mensagem1]])
+                  
               }
           }
 
