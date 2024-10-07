@@ -106,6 +106,15 @@ function sheets(){
                         numero = row_contato[3]
                         mensagem1 = row[0]
                         mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
+                        
+                        try {
+                          mensagem1 = mensagem1.replace("[Nome]", nome.split(" ")[0])
+                          mensagem1 = mensagem1.replace("[NOME]", nome.split(" ")[0])
+                        } catch (error) {
+                          console.error('Error:', error);
+                        }
+                        
+
                        
                         valores.push([[numero], [mensagem1]])
                        
@@ -165,7 +174,13 @@ function sheets(){
                   mensagem1 = row[1]
                   mensagem1 = mensagem1.replace("[nome]", nome.split(" ")[0])
                  
-               
+                  try {
+                    mensagem1 = mensagem1.replace("[Nome]", nome.split(" ")[0])
+                    mensagem1 = mensagem1.replace("[NOME]", nome.split(" ")[0])
+                  } catch (error) {
+                    console.error('Error:', error);
+                  }
+                  
                   valores.push([[numero], [mensagem1]])
                   
               }
