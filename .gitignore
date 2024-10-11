@@ -12,5 +12,9 @@ token2.json
 node_modules
 .wwebjs_auth
 package-lock.json
+<<<<<<< HEAD
 teste.js
 generico.js
+=======
+teste.js
+>>>>>>> 3b029ca37358ee40767305af8d5b6abd9661df41
