@@ -292,77 +292,77 @@ sheets().then((valores) => {
 
 
 
-  async function whats(todas_acoes) {
+    async function whats(todas_acoes) {
 
-    const qrcode = require('qrcode-terminal');
-    const { Client, LocalAuth } = require('whatsapp-web.js');
-    const client = new Client({
-        authStrategy: new LocalAuth(),
-        webVersion: "2.2412.54",
-        webVersionCache: {
-        type: "remote",
-        remotePath:
-          "https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html",
-      },
-    });
+      const qrcode = require('qrcode-terminal');
+      const { Client, LocalAuth } = require('whatsapp-web.js');
+      const client = new Client({
+          authStrategy: new LocalAuth(),
+          webVersion: "2.2412.54",
+          webVersionCache: {
+          type: "remote",
+          remotePath:
+            "https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html",
+        },
+      });
 
-    client.on('qr', qr => {
-        qrcode.generate(qr, {small: true});
-    });
+      client.on('qr', qr => {
+          qrcode.generate(qr, {small: true});
+      });
 
-    client.on('ready', () => {
-        console.log('Client is ready!');
+      client.on('ready', () => {
+          console.log('Client is ready!');
 
-        formatado = [];
-        const messagePromises = [];
+          formatado = [];
+          const messagePromises = [];
 
-        for (let index = 0; index < todas_acoes.length; index++) {
-            for (let index_dentro = 0; index_dentro < todas_acoes[index].length; index_dentro++) {
-                array = [];
-                if (index_dentro == 0) {
-                    var numero = todas_acoes[index][index_dentro];
-                } else {
-                    const element = todas_acoes[index][index_dentro];
-                    numero_enviar = '55' + String(numero).replace(/\D/g, '') + '@c.us';
-                    formatado.push([numero_enviar, element[0]]);
-                }
-            }
-        }
+          for (let index = 0; index < todas_acoes.length; index++) {
+              for (let index_dentro = 0; index_dentro < todas_acoes[index].length; index_dentro++) {
+                  array = [];
+                  if (index_dentro == 0) {
+                      var numero = todas_acoes[index][index_dentro];
+                  } else {
+                      const element = todas_acoes[index][index_dentro];
+                      numero_enviar = '55' + String(numero).replace(/\D/g, '') + '@c.us';
+                      formatado.push([numero_enviar, element[0]]);
+                  }
+              }
+          }
 
-        console.log(formatado);
+          console.log(formatado);
 
-        function enviarMensagens(index) {
-            if (index >= formatado.length) {
-                client.destroy();
-                console.log('Todas as mensagens foram enviadas.');
-                return;
-            }
+          function enviarMensagens(index) {
+              if (index >= formatado.length) {
+                  client.destroy();
+                  console.log('Todas as mensagens foram enviadas.');
+                  return;
+              }
 
-            const enviar = formatado[index];
-            client.sendMessage(enviar[0], '')
-                .then(() => client.sendMessage(enviar[0], enviar[1]))
-                .then(() => console.log(enviar[0], enviar[1]));
+              const enviar = formatado[index];
+              client.sendMessage(enviar[0], '')
+                  .then(() => client.sendMessage(enviar[0], enviar[1]))
+                  .then(() => console.log(enviar[0], enviar[1]));
 
-            client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
-            client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
+              client.sendMessage('5511945274604@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
+              client.sendMessage('5511985848901@c.us', `*Foi enviada com sucesso a mensagem:* \n${enviar[1]} *para o numero:*\n ${enviar[0]}`);
 
-            setTimeout(() => {
-                enviarMensagens(index + 1);
-            }, 8000);
-        }
+              setTimeout(() => {
+                  enviarMensagens(index + 1);
+              }, 8000);
+          }
 
-        enviarMensagens(0);
-    });
+          enviarMensagens(0);
+      });
 
-    client.on('message', message => {
-        if (message.body === '!ping') {
-            client.sendMessage(message.from, 'pong');
-        }
-    });
+      client.on('message', message => {
+          if (message.body === '!ping') {
+              client.sendMessage(message.from, 'pong');
+          }
+      });
 
-    // Use await to ensure the initialization finishes before continuing
-    await client.initialize();
-}
+      // Use await to ensure the initialization finishes before continuing
+      await client.initialize();
+  }
 
 
 
